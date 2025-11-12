@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JeevanYatra - Explore Destinations</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}?v=2">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- AOS Animation CSS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+  <!-- AOS Library -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        /* Custom scrollbar for better aesthetics on desktop */
+        @media (min-width: 768px) {
+            .custom-scrollbar::-webkit-scrollbar {
+                width: 8px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-track {
+                background: #f1f5f9; /* bg-gray-100 */
+                border-radius: 10px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb {
+                background: #cbd5e1; /* bg-gray-300 */
+                border-radius: 10px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                background: #94a3b8; /* bg-gray-400 */
+            }
+        }
+
+        /* Ensure the body and html take up full height for correct scrolling */
+        html, body {
+            height: 100%;
+        }
+
+        /* Adjust for mobile to allow proper scrolling */
+        .mobile-scroll-area {
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Specific styles for accordion arrow */
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+    {% include 'user_topbar.html' %}
+
+    <div class="md:hidden fixed top-0 left-0 w-full bg-white shadow-lg z-50 flex items-center h-12 px-4">
+  <a href="/package/{{ package.id }}" 
+     class="flex items-center space-x-2 text-indigo-600 font-semibold"
+     title="Back to Package">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+    <span>Back</span>
+  </a>
+</div>
+
+<style>
+  @media (max-width: 767px) { 
+    body {
+      padding-top: 3rem; 
+    }
+  }
+</style>
+
+    <div class="max-w-6xl mx-auto p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-6 flex-grow pb-8">
+
+        <div class="bg-white p-6 rounded-lg shadow md:col-span-1 flex flex-col">
+            <form id="bookingForm" method="POST" action="/payment_success"
+                  class="flex-grow mobile-scroll-area custom-scrollbar space-y-4">
+                <input type="hidden" name="package_id" value="{{ package.id }}">
+                <input type="hidden" name="booking_time" value="{{ package.start_date }}">
+                <input type="hidden" name="total_price" id="hidden_total_price" value="{{ package.price }}">
+
+                <h2 class="text-xl font-bold text-indigo-700">Passenger Information</h2>
+
+                <div>
+                    <label class="block font-medium mb-1 text-gray-700">Boarding Point</label>
+                    <select name="boarding_point" required
+                            class="w-full border border-gray-300 p-2 rounded-lg focus:ring focus:ring-indigo-200 focus:border-indigo-500 transition-colors">
+                        <option value="">Select Boarding Point</option>
+                        {% for point in package.boardings %}
+                            <option value="{{ point | trim }}">{{ point | trim }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-medium mb-1 text-gray-700">Adults (12+)</label>
+                        <input type="number" id="total_adults" name="total_adults" min="1" value="1"
+                               class="w-full border border-gray-300 p-2 rounded-lg focus:ring focus:ring-indigo-200 focus:border-indigo-500 transition-colors"
+                               required>
+                    </div>
+                    <div>
+                        <div class="mb-4 relative">
+    <label class="block font-medium text-gray-700 mb-1 flex items-center">
+        Child (5–12)
+        <button type="button" class="ml-2 group relative focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 hover:text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <title>Info</title>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/>
+            </svg>
+            <div class="absolute left-1/2 transform -translate-x-1/2 mt-2 w-64 bg-white border border-gray-300 text-sm text-gray-700 rounded shadow-lg p-2 z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto">
+                Seat charges are not included for children. If a seat is required, please book under the adult category.
+            </div>
+        </button>
+    </label>
+    <input type="number" id="total_children" name="total_children" min="0" value="0"
+           class="w-full border border-gray-300 p-2 rounded-lg focus:ring focus:ring-indigo-200 focus:border-indigo-500 transition-colors"
+           required>
+</div>
+
+                    </div>
+                </div>
+
+                <div class="border-t pt-4 border-gray-200">
+                    <h3 class="font-semibold text-indigo-600 mb-2">Primary Passenger</h3>
+
+                    <input name="primary_name" required placeholder="Full Name"
+                           class="w-full border border-gray-300 p-2 rounded-lg mb-2 focus:ring focus:ring-indigo-200 focus:border-indigo-500 transition-colors"
+                           value="{{ user.full_name or '' }}">
+
+                    <input name="primary_mobile"
+                           required placeholder="Mobile"
+                           inputmode="numeric"
+                           maxlength="10"
+                           pattern="^[6-9]\d{9}$"
+                           oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)"
+                           title="Enter a valid 10-digit mobile number starting with 6–9"
+                           class="w-full border border-gray-300 p-2 rounded-lg mb-2 focus:ring focus:ring-indigo-200 focus:border-indigo-500 transition-colors"
+                           value="{{ user.contact or '' }}">
+
+                   {% if user %}
+    <input name="primary_email" type="email" placeholder="Email"
+           value="{{ user.email.lower() if user.email else '' }}" required
+           class="w-full border border-gray-300 p-2 rounded-lg mb-2 focus:ring focus:ring-indigo-200 focus:border-indigo-500 transition-colors"
+           style="text-transform: lowercase;"
+           oninput="this.value = this.value.toLowerCase()">
+{% else %}
+    <input name="primary_email" type="email" placeholder="Email" required
+           class="w-full border border-gray-300 p-2 rounded-lg mb-2 focus:ring focus:ring-indigo-200 focus:border-indigo-500 transition-colors"
+           style="text-transform: lowercase;"
+           oninput="this.value = this.value.toLowerCase()">
+{% endif %}
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block font-medium mb-1 text-gray-700">Age</label>
+                            <input name="primary_age" required type="number" min="1" max="120"
+                            class="w-full border border-gray-300 p-2 rounded-lg focus:ring focus:ring-indigo-200 focus:border-indigo-500 transition-colors"
+                            placeholder="Enter age">
+                        </div>
+                        <div>
+                            <label class="block font-medium mb-1 text-gray-700">Gender</label>
+                            <select name="primary_gender" required
+                                    class="w-full border border-gray-300 p-2 rounded-lg focus:ring focus:ring-indigo-200 focus:border-indigo-500 transition-colors">
+                                <option value="">Select Gender</option>
+                                <option {% if user and user.gender_id == 1 %}selected{% endif %}>Male</option>
+                                <option {% if user and user.gender_id == 2 %}selected{% endif %}>Female</option>
+                                <option {% if user and user.gender_id == 3 %}selected{% endif %}>Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="adult_passengers_section" class="space-y-4"></div>
+                <div id="child_passengers_section" class="space-y-4"></div>
+            </form>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow md:col-span-1 flex flex-col">
+            <div class="flex-grow">
+                <h2 class="text-xl font-bold mb-4 text-indigo-700">Package Details</h2>
+                <h3 class="text-2xl font-semibold text-gray-800">{{ package.title }}</h3>
+                <p class="text-gray-600 mb-1"><strong>Location:</strong> {{ package.location }}</p>
+                <p class="text-gray-600 mb-1"><strong>Duration:</strong> {{ package.duration }} days</p>
+                <p class="text-gray-600 mb-1"><strong>Start Date:</strong> {{ package.start_date }}</p>
+                <div id="booking-timer" class="text-gray-600 mb-1 font-semibold"></div>
+
+                {% if package.available_seats is defined %}
+                    <p class="text-red-600 font-semibold">
+  <strong>Available Seats:</strong>
+  {% if package.available_seats > 0 %}
+    {{ package.available_seats }}
+  {% else %}
+    No seat available
+  {% endif %}
+</p>
+                {% else %}
+                    <p class="text-yellow-600"><strong>Available Seats:</strong> Checking...</p>
+                {% endif %}
+
+                <div class="mt-6 border-t pt-4 border-gray-200">
+                    <h3 class="text-indigo-700 font-semibold mb-2">Available Coupons</h3>
+                    <ul id="available_coupons" class="mb-2 text-sm text-gray-700 space-y-1"></ul>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input type="text" id="coupon_code" placeholder="Enter Coupon Code"
+                               class="border border-gray-300 p-2 rounded-lg w-full sm:w-auto flex-grow focus:ring focus:ring-indigo-200 focus:border-indigo-500">
+                        <button type="button" onclick="applyCoupon()"
+                                class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                            Apply
+                        </button>
+                    </div>
+                    <p id="coupon_message" class="text-green-600 mt-1 text-sm"></p>
+                </div>
+
+                <div class="mt-6 border-t pt-4 border-gray-200">
+                    <h3 class="text-indigo-700 font-semibold mb-2">Choose Payment Type</h3>
+                    <div class="flex flex-wrap items-center gap-4">
+                        <label class="flex items-center text-gray-700">
+                            <input type="radio" name="payment_type" value="Full" checked onchange="updatePrice()"
+                                   class="mr-2 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
+                            <span>Full Payment</span>
+                        </label>
+                        <label class="flex items-center text-gray-700">
+                            <input type="radio" name="payment_type" value="Partial" onchange="updatePrice()"
+                                   class="mr-2 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
+                            <span>Partial (50%)</span>
+                        </label>
+                        <label class="flex items-center text-gray-700">
+                            <input type="radio" name="payment_type" value="Expert" onchange="updatePrice()"
+                                   class="mr-2 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
+                            <span>Ask Our Experts</span>
+                        </label>
+                    </div>
+                </div>
+            
+
+            <div class="mt-6 border-t pt-4 border-gray-200">
+                <p class="text-lg md:text-xl font-bold text-indigo-600 flex items-center justify-between">
+                    <span>Total Price:</span>
+                    <span>₹ <span id="total_price">{{ package.price }}</span></span>
+                </p>
+                <button id="mainBookingButton" type="button" onclick="handleBooking()"
+                        class="mt-4 w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors text-lg font-semibold">
+                    Pay & Confirm Booking
+                </button>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        const unitPrice = {{ package.price }};
+        const halfPrice = unitPrice / 2;
+        let currentCoupon = null;
+        let discountAmount = 0;
+
+        function getPaymentType() {
+            const selected = document.querySelector('input[name="payment_type"]:checked');
+            return selected ? selected.value : "Full";
+        }
+
+        function generatePassengerFields() {
+            const adults = parseInt(document.getElementById("total_adults").value) || 1;
+            const children = parseInt(document.getElementById("total_children").value) || 0;
+            const baseTotal = (adults * unitPrice) + (children * halfPrice);
+            let finalTotal = baseTotal;
+
+            // Store previous inputs
+            const prevAdultData = {};
+            document.querySelectorAll("#adult_passengers_section .passenger-details").forEach((div, i) => {
+                prevAdultData[i + 1] = {
+                    name: div.querySelector(`[name^="accompanying_name_"]`)?.value || "",
+                    mobile: div.querySelector(`[name^="accompanying_mobile_"]`)?.value || "",
+                    age: div.querySelector(`[name^="accompanying_age_"]`)?.value || "",
+                    gender: div.querySelector(`[name^="accompanying_gender_"]`)?.value || ""
+                };
+            });
+
+            const prevChildData = {};
+            document.querySelectorAll("#child_passengers_section .passenger-details").forEach((div, i) => {
+                prevChildData[i + 1] = {
+                    name: div.querySelector(`[name^="child_name_"]`)?.value || "",
+                    age: div.querySelector(`[name^="child_age_"]`)?.value || ""
+                };
+            });
+
+            // Update coupon list
+            const available = [];
+            if (baseTotal >= 10000) available.push("TRAVEL500");
+            if (adults >= 3) available.push("FAMILY10");
+
+            const couponBox = document.getElementById("available_coupons");
+            if (couponBox)
+                couponBox.innerHTML = available.length
+                    ? available.map(c => `<li>🎁 <strong>${c}</strong> is available</li>`).join("")
+                    : `<li class="text-red-500">❌ No coupons available</li>`;
+
+            // Apply coupon
+            const msg = document.getElementById("coupon_message");
+            if (currentCoupon === "TRAVEL500" && baseTotal >= 10000) {
+                discountAmount = 500;
+                if (msg) msg.innerText = "✅ TRAVEL500 applied: ₹500 off!";
+            } else if (currentCoupon === "FAMILY10" && adults >= 3) {
+                discountAmount = Math.round(baseTotal * 0.10);
+                if (msg) msg.innerText = `✅ FAMILY10 applied: ₹${discountAmount} off!`;
+            } else {
+                currentCoupon = null;
+                discountAmount = 0;
+                if (msg) msg.innerText = "";
+                document.getElementById("coupon_code").value = "";
+            }
+
+            const paymentType = getPaymentType();
+            finalTotal -= discountAmount;
+            if (paymentType === "Partial") {
+                finalTotal = Math.ceil(finalTotal / 2);
+            }
+            finalTotal = Math.max(0, finalTotal); // Ensure total is not negative
+
+            document.getElementById("total_price").innerText = finalTotal;
+            document.getElementById("hidden_total_price").value = finalTotal;
+
+            const form = document.getElementById("bookingForm");
+            let typeInput = form.querySelector('input[name="payment_type_hidden"]');
+            if (!typeInput) {
+                typeInput = document.createElement("input");
+                typeInput.type = "hidden";
+                typeInput.name = "payment_type_hidden";
+                form.appendChild(typeInput);
+            }
+            typeInput.value = paymentType;
+
+            const mainBookingButton = document.getElementById('mainBookingButton');
+            if (paymentType === 'Expert') {
+                mainBookingButton.innerText = 'Connect Us';
+                mainBookingButton.classList.remove('bg-green-600', 'hover:bg-green-700');
+                mainBookingButton.classList.add('bg-blue-600', 'hover:bg-blue-700');
+            } else {
+                mainBookingButton.innerText = 'Pay & Confirm Booking';
+                mainBookingButton.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                mainBookingButton.classList.add('bg-green-600', 'hover:bg-green-700');
+            }
+
+            // Regenerate Adults
+            let adultsHTML = "";
+            for (let i = 1; i < adults; i++) {
+                const prev = prevAdultData[i] || {};
+                adultsHTML += `
+                    <div class="border-t pt-4 border-gray-200">
+                        <button type="button" onclick="toggleOnlyThis(this)"
+                                class="font-semibold text-indigo-600 w-full text-left flex items-center justify-between py-2">
+                            <span>Adult Passenger ${i + 1}</span>
+                            <span class="text-sm transform transition-transform duration-200">▼</span>
+                        </button>
+                        <div class="passenger-details mt-2 hidden space-y-2">
+                            <input name="accompanying_name_${i}" placeholder="Full Name"
+                                   class="w-full border border-gray-300 p-2 rounded-lg focus:ring focus:ring-indigo-200 focus:border-indigo-500 transition-colors"
+                                   value="${prev.name || ''}">
+                            <input name="accompanying_mobile_${i}" placeholder="Mobile"
+                                   inputmode="numeric"
+                                   maxlength="10"
+                                   pattern="^[6-9]\\d{9}$"
+                                   oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)"
+                                   title="Enter a valid 10-digit mobile number starting with 6–9"
+                                   class="w-full border border-gray-300 p-2 rounded-lg focus:ring focus:ring-indigo-200 focus:border-indigo-500 transition-colors"
+                                   value="${prev.mobile || ''}">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-1 text-gray-700">Age</label>
+                                    <input name="accompanying_age_${i}" type="number" min="1" max="120"
+                                    class="w-full border border-gray-300 p-2 rounded-lg focus:ring focus:ring-indigo-200 focus:border-indigo-500 transition-colors"
+                                    value="${prev.age || ''}"
+                                    placeholder="Enter age">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1 text-gray-700">Gender</label>
+                                    <select name="accompanying_gender_${i}"
+                                            class="w-full border border-gray-300 p-2 rounded-lg focus:ring focus:ring-indigo-200 focus:border-indigo-500 transition-colors">
+                                        <option value="">Select Gender</option>
+                                        <option ${prev.gender === "Male" ? "selected" : ""}>Male</option>
+                                        <option ${prev.gender === "Female" ? "selected" : ""}>Female</option>
+                                        <option ${prev.gender === "Other" ? "selected" : ""}>Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            document.getElementById("adult_passengers_section").innerHTML = adultsHTML;
+
+            // Regenerate Children
+            let childrenHTML = "";
+            for (let i = 1; i <= children; i++) {
+                const prev = prevChildData[i] || {};
+                childrenHTML += `
+                    <div class="border-t pt-4 border-gray-200">
+                        <button type="button" onclick="toggleOnlyThis(this)"
+                                class="font-semibold text-pink-600 w-full text-left flex items-center justify-between py-2">
+                            <span>Child ${i}</span>
+                            <span class="text-sm transform transition-transform duration-200">▼</span>
+                        </button>
+                        <div class="passenger-details mt-2 hidden space-y-2">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-1 text-gray-700">Child Name</label>
+                                    <input name="child_name_${i}" placeholder="Name"
+                                           class="w-full border border-gray-300 p-2 rounded-lg focus:ring focus:ring-indigo-200 focus:border-indigo-500 transition-colors"
+                                           value="${prev.name || ''}">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1 text-gray-700">Age</label>
+                                    <input name="child_age_${i}" type="number" min="0" max="17"
+                                    class="w-full border border-gray-300 p-2 rounded-lg focus:ring focus:ring-indigo-200 focus:border-indigo-500 transition-colors"
+                                    value="${prev.age || ''}"
+                                    placeholder="Enter age">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            document.getElementById("child_passengers_section").innerHTML = childrenHTML;
+        }
+
+        function applyCoupon() {
+            const code = document.getElementById("coupon_code").value.trim().toUpperCase();
+            const adults = parseInt(document.getElementById("total_adults").value) || 1;
+            const children = parseInt(document.getElementById("total_children").value) || 0;
+            const baseTotal = (adults * unitPrice) + (children * halfPrice);
+
+            if (code === "TRAVEL500" && baseTotal >= 10000) {
+                currentCoupon = "TRAVEL500";
+                discountAmount = 500;
+                document.getElementById("coupon_message").innerText = "✅ TRAVEL500 applied: ₹500 off!";
+            } else if (code === "FAMILY10" && adults >= 3) {
+                currentCoupon = "FAMILY10";
+                discountAmount = Math.round(baseTotal * 0.10);
+                document.getElementById("coupon_message").innerText = `✅ FAMILY10 applied: ₹${discountAmount} off!`;
+            } else {
+                currentCoupon = null;
+                discountAmount = 0;
+                document.getElementById("coupon_message").innerText = "❌ Invalid or ineligible coupon.";
+            }
+
+            // Slight delay to let browser register previous values
+            setTimeout(generatePassengerFields, 10);
+        }
+
+        function toggleOnlyThis(btn) {
+            const details = btn.nextElementSibling;
+            const arrow = btn.querySelector('span:last-child');
+
+            // Hide all others and reset their arrows
+            document.querySelectorAll('#adult_passengers_section .passenger-details, #child_passengers_section .passenger-details').forEach(el => {
+                if (el !== details) {
+                    el.classList.add('hidden');
+                }
+            });
+            document.querySelectorAll('#adult_passengers_section button span:last-child, #child_passengers_section button span:last-child').forEach(el => {
+                if (el !== arrow) {
+                    el.classList.remove('rotate-180');
+                }
+            });
+
+            // Toggle the clicked one
+            details.classList.toggle('hidden');
+            arrow.classList.toggle('rotate-180');
+        }
+
+        function handleBooking() {
+            const paymentType = getPaymentType();
+            if (paymentType === 'Expert') {
+                connectUsOnWhatsApp();
+            } else {
+                openRazorpay();
+            }
+        }
+
+        function connectUsOnWhatsApp() {
+            const form = document.getElementById('bookingForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const primaryName = document.querySelector('[name="primary_name"]').value;
+            const totalAdults = document.getElementById('total_adults').value;
+            const totalChildren = document.getElementById('total_children').value;
+            const packageName = '{{ package.title }}';
+            const packageId = '{{ package.id }}';
+            const totalPrice = document.getElementById('total_price').innerText;
+
+            const message = `Hello, I'm interested in booking the package "${packageName}" (ID: ${packageId}).
+
+*Booking Details:*
+- Primary Passenger Name: ${primaryName}
+- Adults: ${totalAdults}
+- Children: ${totalChildren}
+- Total Price: ₹${totalPrice}
+
+Could you please help me with the booking process?`;
+
+            const whatsappUrl = `https://wa.me/917987190554?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function openRazorpay() {
+            const form = document.getElementById('bookingForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const total = parseInt(document.getElementById('hidden_total_price').value);
+            if (total <= 0) {
+                alert("The total price must be greater than zero to proceed with payment.");
+                return;
+            }
+
+            const options = {
+                "key": "rzp_live_R81ZX2l4Pf301W",
+                "amount": total * 100,
+                "currency": "INR",
+                "name": "JeevanYatra",
+                "description": "Package Booking",
+                "handler": function (response) {
+                    const input = document.createElement("input");
+                    input.type = "hidden";
+                    input.name = "razorpay_payment_id";
+                    input.value = response.razorpay_payment_id;
+                    form.appendChild(input);
+                    form.submit();
+                },
+                "theme": {"color": "#4F46E5"}
+            };
+            const rzp = new Razorpay(options);
+            rzp.open();
+        }
+
+        // Initial bindings
+        document.getElementById('total_adults').addEventListener('input', generatePassengerFields);
+        document.getElementById('total_children').addEventListener('input', generatePassengerFields);
+        window.onload = () => {
+            const msg = document.getElementById("coupon_message");
+            if (msg) msg.innerText = "";
+            generatePassengerFields();
+        };
+
+        function updatePrice() {
+            generatePassengerFields();
+        }
+    </script>
+ <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const tripStart = new Date("{{ package.start_date }}".replace(" ", "T"));
+    const bookingDeadline = new Date(tripStart.getTime() - 24 * 60 * 60 * 1000);
+
+    const timerEl = document.getElementById("booking-timer");
+    const bookBtn = document.querySelector(".sticky-book-btn");
+
+    function updateTimer() {
+      const now = new Date();
+      const distance = bookingDeadline - now;
+
+      if (distance <= 0) {
+        timerEl.textContent = "⛔ Booking closed";
+        timerEl.classList.remove("text-green-600", "text-yellow-500");
+        timerEl.classList.add("text-red-600");
+        if (bookBtn) bookBtn.classList.add("hidden");
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((distance / (1000 * 60)) % 60);
+      const seconds = Math.floor((distance / 1000) % 60);
+
+      // Update timer text
+      timerEl.textContent = `Time left to book: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+      // Change color based on time left
+      if (distance < 24 * 60 * 60 * 1000) {
+        timerEl.classList.remove("text-green-600");
+        timerEl.classList.add("text-red-600");
+      } else {
+        timerEl.classList.remove("text-red-600");
+        timerEl.classList.add("text-green-600");
+      }
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 1000);
+  });
+</script>
+
+<div class="hidden md:block">
+    {% include 'user_footer.html' %}
+</div>
+
+</body>
+</html>

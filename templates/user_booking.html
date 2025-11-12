@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JeevanYatra - Explore Destinations</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}?v=2">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- AOS Animation CSS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+  <!-- AOS Library -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
+
+  {% include 'user_topbar.html' %}
+  {% include 'mobile_topbar.html' %}
+
+  <div class="flex-grow">
+    <div class="max-w-6xl mx-auto px-4 py-10">
+      <h2 class="text-3xl font-bold text-center mb-8">🧾 Your Bookings</h2>
+
+      {% if bookings %}
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white shadow rounded-lg overflow-hidden">
+          <thead class="bg-blue-600 text-white text-left text-sm">
+            <tr>
+              <th class="px-6 py-3 font-medium">Booking ID</th>
+              <th class="px-6 py-3 font-medium">Date</th>
+              <th class="px-6 py-3 font-medium">Total Price</th>
+              <th class="px-6 py-3 font-medium">Receipt</th>
+              <th class="px-6 py-3 font-medium">Action</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            {% for booking in bookings %}
+            <tr class="hover:bg-blue-50 transition">
+              <td class="px-6 py-4 text-sm">{{ booking.id }}</td>
+              <td class="px-6 py-4 text-sm">{{ booking.start_date.strftime("%Y-%m-%d") }}</td>
+              <td class="px-6 py-4 text-sm font-semibold text-green-600">₹{{ booking.total_price }}</td>
+              <td class="px-6 py-4 text-sm">
+                <a href="/ticket/{{ booking.id }}" target="_blank"
+                   class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded shadow text-sm">
+                   ⬇
+                </a>
+              </td>
+              <td class="px-6 py-4 text-sm">
+                {% if booking.status != 'cancelled' and booking.days_left > 1 %}
+                  <button onclick="openCancelModal({{ booking.id }})"
+                          class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded shadow text-sm">
+                    ❌ Cancel
+                  </button>
+                {% elif booking.status == 'cancelled' %}
+                  <span class="text-blue-600 text-sm font-medium">
+                    {{ booking.refund_status }}:₹{{ booking.refund_amount }}
+                  </span>
+                {% elif booking.days_left <= 1 %}
+                  <span class="text-gray-500 text-sm">Too late to cancel</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <p class="text-center text-gray-600 text-lg mt-12">You haven't booked any packages yet.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  {% include 'user_footer.html' %}
+  {% include 'mobile_footer.html' %}
+
+  <!-- Cancel Confirmation Modal -->
+  <div id="cancelModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+      <h2 class="text-lg font-semibold mb-4">Cancel Booking</h2>
+      <p class="mb-6">Do you want partial cancellation? Please contact support at 📞 <strong>+91 8085917824</strong> or 📧 <strong>contact@jeevanyatra.co.in</strong>.<br><br>Click <strong>Confirm</strong> for FULL cancellation.</p>
+      <div class="flex justify-center gap-3">
+        <button id="cancelNo" class="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded">No</button>
+        <button id="cancelYes" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let selectedBookingId = null;
+
+    function openCancelModal(bookingId) {
+      selectedBookingId = bookingId;
+      document.getElementById("cancelModal").classList.remove("hidden");
+      document.getElementById("cancelModal").classList.add("flex");
+    }
+
+    document.getElementById("cancelNo").addEventListener("click", function () {
+      document.getElementById("cancelModal").classList.add("hidden");
+      document.getElementById("cancelModal").classList.remove("flex");
+    });
+
+    document.getElementById("cancelYes").addEventListener("click", function () {
+      fetch(`/cancel_booking/${selectedBookingId}`, { method: "POST" })
+        .then(async res => {
+          const msg = await res.text();
+          alert(msg);
+          if (res.ok) {
+            window.location.reload();
+          }
+        })
+        .catch(err => {
+          alert("Unexpected error: " + err);
+        });
+    });
+  </script>
+<!----------------------tawk.to---------------------------------->
+  <script>
+  if(window.innerWidth >= 768) { // md breakpoint
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/689b7989e0fd9f192a112f77/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+  document.body.appendChild(script);
+}
+</script>
+<!----------------------tawk.to---------------------------------->
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JeevanYatra - Explore Destinations</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}?v=2">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='logo.png') }}">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- AOS Animation CSS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+  <!-- AOS Library -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+<!-- Packages Listing Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "JeevanYatra - Travel Packages",
+  "alternateName": "JeevanYatra - Travel Packages",
+  "url": "https://jeevanyatra.co.in/packages",
+  "description": "Explore unforgettable journeys with JeevanYatra. Find Ujjain Mahakal Darshan, Kedarnath Yatra, Jagannath Puri Yatra and more.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "JeevanYatra",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ url_for('static', filename='logo.png', _external=True) }}"
+    }
+  }
+}
+</script>
+    <style>
+        .card-hover-scale:hover img {
+            transform: scale(1.05);
+        }
+        @media (max-width: 640px) {
+            .animate-fade-in-down,
+            .animate-fade-in-up {
+                animation: none;
+            }
+        }
+        @keyframes fade-in-down {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-down { animation: fade-in-down 0.6s ease-out; }
+        .animate-fade-in-up { animation: fade-in-up 0.6s ease-out 0.2s backwards; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
+
+    {% include 'user_topbar.html' %}
+    {% include 'mobile_topbar.html' %}
+  {% include 'sidebar.html' %}
+
+    <main class="flex-grow">
+  <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-indigo-800 mb-4 animate-fade-in-down">
+        Explore Unforgettable Journeys
+      </h1>
+      <p class="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto animate-fade-in-up">
+        Discover hand-picked tour packages designed to create memories that last a lifetime.
+      </p>
+    </div>
+
+    <!-- Mobile Grid (1–2 cols) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:hidden gap-4">
+      {% for package in packages %}
+      <div class="relative h-full">
+        <a href="/package/{{ package.id }}"
+           class="bg-white rounded-3xl shadow-lg overflow-hidden flex flex-col h-full transform transition-transform duration-500 hover:scale-105 hover:shadow-2xl">
+          <div class="overflow-hidden h-60 flex-shrink-0">
+            <img src="{{ package.image_url }}" alt="{{ package.title }}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
+          </div>
+          <div class="p-6 flex flex-col justify-between flex-grow">
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <h3 class="text-xl font-semibold text-indigo-700">{{ package.title }}</h3>
+                <span class="bg-gradient-to-r from-pink-500 to-purple-600 text-white text-sm font-bold px-4 py-1 rounded-full shadow-md">
+                  ₹{{ '%.2f'|format(package.price) }}
+                </span>
+              </div>
+              <p class="text-gray-600 text-sm mb-1">
+                <i class="fas fa-map-marker-alt text-pink-500 mr-1"></i>{{ package.location }}
+              </p>
+              <p class="text-gray-600 text-sm">
+                <i class="fas fa-clock text-purple-500 mr-1"></i>{{ package.duration }} days
+              </p>
+            </div>
+          </div>
+        </a>
+        <a href="/package/{{ package.id }}" class="absolute top-3 left-3 bg-indigo-600 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-md hover:bg-indigo-700 transition">
+          Book Now
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Desktop Grid (md+) -->
+    <div class="hidden md:grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-8">
+      {% for package in packages %}
+      <div class="relative h-full">
+        <a href="/package/{{ package.id }}" 
+           class="bg-white rounded-3xl shadow-lg overflow-hidden flex flex-col h-full transform transition-all duration-500 hover:scale-105 hover:shadow-2xl">
+          <div class="overflow-hidden h-60 flex-shrink-0">
+            <img src="{{ package.image_url }}" alt="{{ package.title }}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
+          </div>
+          <div class="p-6 flex flex-col justify-between flex-grow">
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <h3 class="text-xl font-semibold text-indigo-700">{{ package.title }}</h3>
+                <span class="bg-gradient-to-r from-pink-500 to-purple-600 text-white text-sm font-bold px-4 py-1 rounded-full shadow-md">
+                  ₹{{ '%.2f'|format(package.price) }}
+                </span>
+              </div>
+              <p class="text-gray-600 text-sm mb-1">
+                <i class="fas fa-map-marker-alt text-pink-500 mr-1"></i>{{ package.location }}
+              </p>
+              <p class="text-gray-600 text-sm">
+                <i class="fas fa-clock text-purple-500 mr-1"></i>{{ package.duration }} days
+              </p>
+            </div>
+          </div>
+        </a>
+        <a href="/package/{{ package.id }}" class="absolute top-3 left-3 bg-indigo-600 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-md hover:bg-indigo-700 transition">
+          Book Now
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</main>
+
+    {% include 'user_footer.html' %}
+    {% include 'mobile_footer.html' %}
+
+<!----------------------tawk.to---------------------------------->
+  <script>
+  if(window.innerWidth >= 768) { // md breakpoint
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/689b7989e0fd9f192a112f77/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+}
+</script>
+<!----------------------tawk.to---------------------------------->
+
+</body>
+</html>

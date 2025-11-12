@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us | JeevanYatra</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}?v=2">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+{% include 'user_topbar.html' %}
+  {% include 'mobile_topbar.html' %}
+  {% include 'sidebar.html' %}
+  <!-- Hero Section -->
+  <section class="relative h-80 bg-cover bg-center" style="background-image: url('/static/images/about-hero.jpg');">
+    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+      <h1 class="text-white text-4xl md:text-5xl font-bold tracking-wide">About JeevanYatra</h1>
+    </div>
+  </section>
+
+  <!-- Intro -->
+  <section class="max-w-7xl mx-auto px-6 py-12 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold text-indigo-700 mb-6">Your Journey, Our Passion</h2>
+    <p class="text-lg md:text-xl leading-relaxed text-gray-600">
+      JeevanYatra is your trusted travel companion for exploring the rich culture, heritage, and natural beauty of India.
+      We are dedicated to making your journey seamless, memorable, and full of unique experiences.
+    </p>
+  </section>
+
+  <!-- Mission, Vision, Values -->
+  <section class="bg-white py-12">
+    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+      <div class="p-6 bg-indigo-50 rounded-xl shadow hover:shadow-lg transition">
+        <i class="fas fa-bullseye text-indigo-600 text-4xl mb-4"></i>
+        <h3 class="text-2xl font-semibold mb-2">Our Mission</h3>
+        <p class="text-gray-600">To connect travelers with the beauty, culture, and diversity of India while ensuring comfort, safety, and unforgettable memories.</p>
+      </div>
+      <div class="p-6 bg-indigo-50 rounded-xl shadow hover:shadow-lg transition">
+        <i class="fas fa-eye text-indigo-600 text-4xl mb-4"></i>
+        <h3 class="text-2xl font-semibold mb-2">Our Vision</h3>
+        <p class="text-gray-600">To become India’s most loved travel platform, offering authentic experiences that enrich lives and inspire exploration.</p>
+      </div>
+      <div class="p-6 bg-indigo-50 rounded-xl shadow hover:shadow-lg transition">
+        <i class="fas fa-heart text-indigo-600 text-4xl mb-4"></i>
+        <h3 class="text-2xl font-semibold mb-2">Our Values</h3>
+        <p class="text-gray-600">Integrity, hospitality, and a deep respect for India’s traditions while embracing modern travel conveniences.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us -->
+  <section class="max-w-7xl mx-auto px-6 py-16">
+    <h2 class="text-3xl font-bold text-center text-indigo-700 mb-12">Why Choose JeevanYatra?</h2>
+    <div class="grid md:grid-cols-3 gap-8 text-center">
+      <div class="p-6 bg-white rounded-lg shadow hover:shadow-xl transition">
+        <i class="fas fa-route text-indigo-600 text-4xl mb-4"></i>
+        <h3 class="text-xl font-semibold mb-2">Tailored Itineraries</h3>
+        <p class="text-gray-600">We customize your travel experience to match your interests and preferences.</p>
+      </div>
+      <div class="p-6 bg-white rounded-lg shadow hover:shadow-xl transition">
+        <i class="fas fa-users text-indigo-600 text-4xl mb-4"></i>
+        <h3 class="text-xl font-semibold mb-2">Expert Guides</h3>
+        <p class="text-gray-600">Our local experts ensure you discover hidden gems and authentic stories.</p>
+      </div>
+      <div class="p-6 bg-white rounded-lg shadow hover:shadow-xl transition">
+        <i class="fas fa-hand-holding-heart text-indigo-600 text-4xl mb-4"></i>
+        <h3 class="text-xl font-semibold mb-2">Customer Care</h3>
+        <p class="text-gray-600">24/7 support to make sure your trip is smooth and stress-free.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="bg-indigo-700 text-white py-12">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4">Ready to Explore JeevanYatra?</h2>
+      <p class="mb-6">Join thousands of happy travelers who have experienced the magic of India with JeevanYatra.</p>
+      <a href="/packages" class="px-6 py-3 bg-white text-indigo-700 rounded-full font-semibold shadow hover:bg-gray-200 transition">Explore Packages</a>
+    </div>
+  </section>
+{% include 'user_footer.html' %}
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/689b7989e0fd9f192a112f77/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+</body>
+</html>

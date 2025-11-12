@@ -1,0 +1,90 @@
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}?v=2">
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+<header class="bg-white shadow-md sticky top-0 z-40 w-full">
+  <!-- ✅ Flash Messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="fixed top-16 left-0 right-0 mx-auto max-w-md px-4 z-50">
+      {% for category, msg in messages %}
+        <div class="mb-3 p-3 text-center text-white rounded-lg shadow
+            {% if category == 'success' %} bg-green-500
+            {% elif category == 'error' %} bg-red-500
+            {% else %} bg-yellow-500 {% endif %}">
+          {{ msg }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  {% endwith %}
+
+  <!-- 🔥 Full-width flex bar -->
+  <div class="w-full px-6 flex justify-between items-center py-3">
+    <!-- Brand / Logo -->
+    <a href="owner_dashboard" class="flex items-center space-x-2">
+      <img src="{{ url_for('static', filename='favicon.png') }}" alt="Logo" class="w-8 h-8 rounded-full shadow-sm">
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex space-x-6 items-center">
+      <a href="owner_dashboard" class="text-gray-700 hover:text-indigo-600 font-medium">Dashboard</a>
+      <a href="manage_bookings" class="text-gray-700 hover:text-indigo-600 font-medium">Bookings</a>
+      <a href="manage_packages" class="text-gray-700 hover:text-indigo-600 font-medium">Packages</a>
+      <a href="manage_buses" class="text-gray-700 hover:text-indigo-600 font-medium">Bus</a>
+
+      {% if user and user.get('role') in ['master_admin', 'founder'] %}
+        <a href="manage_reviews" class="text-gray-700 hover:text-indigo-600 font-medium">Reviews</a>
+        <a href="owner_create" class="text-gray-700 hover:text-indigo-600 font-medium">Owners</a>
+      {% endif %}
+
+      <a href="owner_settings" class="text-gray-700 hover:text-indigo-600 font-medium">Settings</a>
+    </nav>
+
+    <!-- Right Side (Logout - Desktop) -->
+    <div class="hidden md:flex items-center space-x-4">
+      <a href="/logout" 
+         class="bg-red-500 text-white font-medium py-2 px-4 rounded-lg shadow hover:bg-red-600 transition">
+        Logout
+      </a>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <div class="md:hidden flex items-center">
+      <button class="p-2 text-gray-700 hover:text-indigo-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              onclick="toggleMobileMenu()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-200 hidden">
+    <nav class="flex flex-col items-center py-4 space-y-2">
+      <a href="owner_dashboard" class="block text-gray-700 hover:text-indigo-600 font-medium">Dashboard</a>
+      <a href="manage_bookings" class="block text-gray-700 hover:text-indigo-600 font-medium">Bookings</a>
+      <a href="manage_packages" class="block text-gray-700 hover:text-indigo-600 font-medium">Packages</a>
+      <a href="manage_buses" class="block text-gray-700 hover:text-indigo-600 font-medium">Bus</a>
+
+      {% if user and user.get('role') in ['master_admin', 'founder'] %}
+        <a href="manage_reviews" class="block text-gray-700 hover:text-indigo-600 font-medium">Reviews</a>
+        <a href="owner_create" class="block text-gray-700 hover:text-indigo-600 font-medium">Owners</a>
+      {% endif %}
+
+      <a href="owner_settings" class="block text-gray-700 hover:text-indigo-600 font-medium">Settings</a>
+
+      <!-- Logout in Mobile -->
+      <a href="/logout" class="mt-4 block w-full text-center bg-red-500 text-white font-medium py-2 rounded-lg shadow hover:bg-red-600 transition">
+        Logout
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  function toggleMobileMenu() {
+    document.getElementById("mobile-menu").classList.toggle("hidden");
+  }
+</script>

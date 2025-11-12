@@ -1,0 +1,35 @@
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}?v=2">
+<div class="h-6 md:hidden">
+
+  <!-- ✅ Mobile Bottom Navigation (Black, Minimal) -->
+  <nav class="fixed bottom-0 left-0 w-full bg-black text-white flex justify-around py-1.5 md:hidden z-50 text-xs border-t border-gray-700">
+    <a href="/" class="flex flex-col items-center hover:text-indigo-400" aria-label="Home">
+      <div class="text-lg">🏠</div>
+      Home
+    </a>
+    <a href="/packages" class="flex flex-col items-center hover:text-indigo-400" aria-label="Packages">
+      <div class="text-lg">🎬</div>
+      Packages
+    </a>
+    <a href="{% if user %}/user_booking{% else %}javascript:void(0){% endif %}"
+       onclick="{% if not user %}document.getElementById('loginModal').classList.remove('hidden'){% endif %}"
+       class="flex flex-col items-center hover:text-indigo-400" aria-label="My Trip">
+      <div class="text-lg">📦</div>
+      My Trip
+    </a>
+    <a href="{% if user %}/user_settings{% else %}javascript:void(0){% endif %}"
+       onclick="{% if not user %}document.getElementById('loginModal').classList.remove('hidden'){% endif %}"
+       class="flex flex-col items-center hover:text-indigo-400" aria-label="Settings">
+      <div class="text-lg">⚙️</div>
+      Settings
+    </a>
+  </nav>
+</div>
+
+<style>
+  @media (max-width: 767px) {
+    body {
+      padding-bottom: 30px; /* reserve space for bottom nav */
+    }
+  }
+</style>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact — JeevanYatra</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}?v=2">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    /* small extra polish */
+    .glass {
+      background: rgba(255,255,255,0.10);
+      backdrop-filter: blur(8px) saturate(120%);
+      -webkit-backdrop-filter: blur(8px) saturate(120%);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    .card-glass {
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.06);
+      backdrop-filter: blur(6px);
+    }
+    /* toast */
+    #toast {
+      transition: transform .25s ease, opacity .25s ease;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-slate-50 text-gray-800">
+
+{% include 'user_topbar.html' %}
+  {% include 'mobile_topbar.html' %}
+  {% include 'sidebar.html' %}
+  <main class="pt-36 pb-16 px-4">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Left: Contact card / details -->
+      <section class="lg:col-span-1 card-glass rounded-2xl p-6 shadow-xl">
+        <h1 class="text-2xl font-bold text-indigo-700 mb-2">Get in touch</h1>
+        <p class="text-sm text-gray-600 mb-6">Have a question? Need a custom itinerary? Call, email or message us — we’re happy to help.</p>
+
+        <div class="space-y-4">
+          <div class="flex items-start gap-4">
+            <span class="bg-indigo-600 text-white p-3 rounded-xl shadow"><i class="fas fa-map-marker-alt"></i></span>
+            <div>
+              <div class="text-sm font-semibold text-gray-900">Office</div>
+              <div class="text-sm text-gray-600">123 MG Road, New Delhi, India</div>
+              <!-- Replace the address above with your address -->
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <span class="bg-green-500 text-white p-3 rounded-xl shadow"><i class="fas fa-phone"></i></span>
+            <div>
+              <div class="text-sm font-semibold text-gray-900">Phone</div>
+              <a href="tel:+919876543210" class="text-sm text-gray-600 hover:text-indigo-700">+91 8085917824</a>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <span class="bg-red-500 text-white p-3 rounded-xl shadow"><i class="fas fa-envelope"></i></span>
+            <div>
+              <div class="text-sm font-semibold text-gray-900">Email</div>
+              <a href="mailto:contact@jeevanyatra.co.in" class="text-sm text-gray-600 hover:text-indigo-700">contact@jeevanyatra.co.in</a>
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <!-- Google Maps open link: replace MAP_LAT and MAP_LNG below with your coords -->
+            <a id="openMaps" 
+               href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7451.843621938148!2d81.88732624053955!3d20.955654887949162!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a2f4cfc76ab15b5%3A0x5ec4fe88a658684c!2sMaa%20Durga%20Fanshi%20Stors%20Ghata%20Rani%20Rod%20Sahaspur!5e0!3m2!1sen!2sin!4v1754982279094!5m2!1sen!2sin" 
+               target="_blank"
+               class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-indigo-600 text-white font-medium shadow hover:bg-indigo-700 transition">
+              <i class="fas fa-map"></i> Open in Google Maps
+            </a>
+            <p class="mt-2 text-xs text-gray-500">Opens Google Maps app on mobile or Maps in browser on desktop.</p>
+          </div>
+
+          <div class="flex gap-3 mt-4">
+            <a href="#" class="p-3 rounded-lg bg-white/10 glass text-indigo-700 hover:bg-indigo-700 hover:text-white transition shadow"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="p-3 rounded-lg bg-white/10 glass text-sky-500 hover:bg-sky-500 hover:text-white transition shadow"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="p-3 rounded-lg bg-white/10 glass text-pink-500 hover:bg-pink-500 hover:text-white transition shadow"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="p-3 rounded-lg bg-white/10 glass text-amber-500 hover:bg-amber-500 hover:text-white transition shadow"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Middle+Right: Map (big) and Contact form -->
+      <section class="lg:col-span-2 space-y-6">
+        <!-- Map card -->
+        <div class="rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+          <!-- Embedded Google Map iframe (replace the src with your embed code or coords) -->
+          <iframe
+            id="gmap"
+            class="w-full h-96"
+            style="border:0;"
+            loading="lazy"
+            allowfullscreen
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3500.043392561764!2d77.21672131508395!3d28.61393998242266!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd10f6a52df7%3A0x5f1a0e1c9b99d9db!2sNew%20Delhi!5e0!3m2!1sen!2sin!4v1672938475531!5m2!1sen!2sin">
+          </iframe>
+          <div class="p-4 bg-gradient-to-r from-white/60 to-white/20 flex items-center justify-between">
+            <div>
+              <div class="text-sm font-semibold text-gray-900">JeevanYatra Office</div>
+              <div class="text-xs text-gray-600">123 MG Road, New Delhi</div>
+            </div>
+            <div class="space-x-3">
+              <a id="dirBtn" href="https://www.google.com/maps/dir/?api=1&destination=28.6139,77.2090" target="_blank"
+                 class="px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm hover:bg-indigo-700 transition">
+                Get Directions
+              </a>
+              <!-- Add Street View (optional) -->
+              <a href="https://www.google.com/maps?q=28.6139,77.2090&layer=c" target="_blank" class="px-3 py-2 rounded-lg border border-gray-200 text-sm">Street View</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  {% include 'user_footer.html' %}
+
+  <!-- JS: small interactive pieces -->
+  <script>
+    // Replace these coordinates with your location
+    const MAP_LAT = 28.6139;
+    const MAP_LNG = 77.2090;
+    const addressString = encodeURIComponent('123 MG Road, New Delhi, India');
+
+    // Update the "Open in Google Maps" link to use coords (opens app on mobile)
+    const openMaps = document.getElementById('openMaps');
+    openMaps.href = `https://www.google.com/maps/search/?api=1&query=${MAP_LAT},${MAP_LNG}`;
+
+    // Update directions button
+    const dirBtn = document.getElementById('dirBtn');
+    dirBtn.href = `https://www.google.com/maps/dir/?api=1&destination=${MAP_LAT},${MAP_LNG}`;
+
+    // Optional: replace iframe src with a dynamic embed that uses your coordinates (if you'd like)
+    // e.g. iframe.src = `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${MAP_LAT},${MAP_LNG}`;
+
+    // Contact form: front-end validation + fake send
+    const form = document.getElementById('contactForm');
+    const toast = document.getElementById('toast');
+    const toastText = document.getElementById('toastText');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // simple validation
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const message = form.message.value.trim();
+      if (!name || !email || !message) {
+        alert('Please fill name, email and message.');
+        return;
+      }
+
+      // show fake success (replace with real AJAX / fetch to your backend)
+      toastText.innerText = 'Thank you — we received your message!';
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3500);
+
+      form.reset();
+    });
+
+    // Reset button
+    document.getElementById('resetBtn').addEventListener('click', () => form.reset());
+  </script>
+  <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/689b7989e0fd9f192a112f77/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+</body>
+</html>

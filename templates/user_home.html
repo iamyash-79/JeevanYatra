@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{{ seo_title }}</title>
+    <meta name="description" content="{{ seo_description }}">
+    <meta name="keywords" content="{{ seo_keywords }}">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="{{ seo_title }}" />
+    <meta property="og:site_name" content="JeevanYatra">
+    <meta property="og:description" content="{{ seo_description }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ request.url }}" />
+    <meta property="og:image" content="{{ url_for('static', filename='og-image.jpg') }}" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ seo_title }}">
+    <meta name="twitter:description" content="{{ seo_description }}">
+    <meta name="twitter:image" content="{{ url_for('static', filename='og-image.jpg') }}">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}?v=2">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='logo.png') }}">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- AOS Animation CSS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  
+  <!-- Organization Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "JeevanYatra",
+  "url": "https://jeevanyatra.co.in",
+  "logo": "{{ url_for('static', filename='logo.png', _external=True) }}",
+  "sameAs": [
+    "https://www.facebook.com/jeevanyatra",
+    "https://www.instagram.com/jeevanyatra"
+  ]
+}
+</script>
+
+<!-- Website Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "url": "https://jeevanyatra.co.in/",
+  "name": "JeevanYatra",
+  "alternateName": "Jeevan Yatra",
+  "publisher": {
+    "@type": "Organization",
+    "name": "JeevanYatra",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ url_for('static', filename='logo.png', _external=True) }}"
+    }
+  }
+}
+</script>
+<script>
+  AOS.init({
+    once: true,
+    duration: 1000,
+  });
+</script>
+<style>
+    .hero {
+      background: linear-gradient(
+          rgba(0, 0, 0, 0.6),
+          rgba(0, 0, 0, 0.6)
+        ),
+      url('/static/images/bg.png');
+      background-size: cover;
+      background-position: center;
+      height: 80vh;
+      display: flex;
+      align-items: center;
+      color: white;
+      text-align: center;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h2 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+    
+    #packageCarousel {
+  padding-left: 20vw;   /* side packages peek ke liye */
+  padding-right: 20vw;
+}
+
+#packageCarousel a {
+  transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
+  filter: brightness(0.8);
+  transform: scale(0.8);
+  opacity: 2;
+  scroll-snap-align: center;
+}
+
+#packageCarousel a.active {
+  filter: brightness(1);
+  transform: scale(1);
+  opacity: 1;
+  z-index: 10;
+}
+
+  </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Topbar Include -->
+  {% include 'user_topbar.html' %}
+  {% include 'mobile_topbar.html' %}
+  {% include 'sidebar.html' %}
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <h2>
+  Discover Amazing Places With Us
+</h2>
+<p>
+  Explore the world's most beautiful destinations with our expertly
+  crafted tours and travel packages.
+</p>
+<a href="/packages" class="explore-btn">
+  Explore
+</a>
+<a href="/custom" class="explore-btn">
+  Custom Trip
+</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .explore-btn {
+    display: inline-block;
+    margin-top: 15px;
+    background-color: #4f46e5; /* main theme color */
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  .explore-btn:hover {
+    background-color: #4338ca;
+    transform: translateY(-2px);
+  }
+</style>
+
+<section class="py-20 px-4 md:px-10 bg-gradient-to-b from-gray-100 via-white to-gray-100" id="featured">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-4xl font-extrabold text-center text-indigo-800 mb-14">
+      ✨Featured Trips✨
+    </h2>
+
+    <!-- Mobile Carousel (sm screens) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:hidden gap-4">
+  {% for package in featured_packages[:4] %} <!-- only first 4 -->
+    <div class="relative h-full">
+      <a href="/package/{{ package.id }}"
+         class="bg-white rounded-3xl shadow-lg overflow-hidden flex flex-col h-full transform transition-transform duration-500 hover:scale-105 hover:shadow-2xl">
+        <div class="overflow-hidden h-60 flex-shrink-0">
+          <img src="{{ package.image_url }}" alt="{{ package.title }}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
+        </div>
+        <div class="p-6 flex flex-col justify-between flex-grow">
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <h3 class="text-xl font-semibold text-indigo-700">{{ package.title }}</h3>
+              <span class="bg-gradient-to-r from-pink-500 to-purple-600 text-white text-sm font-bold px-4 py-1 rounded-full shadow-md">
+                ₹{{ '%.2f'|format(package.price) }}
+              </span>
+            </div>
+            <p class="text-gray-600 text-sm mb-1">
+              <i class="fas fa-map-marker-alt text-pink-500 mr-1"></i>{{ package.location }}
+            </p>
+            <p class="text-gray-600 text-sm">
+              <i class="fas fa-clock text-purple-500 mr-1"></i>{{ package.duration }} days
+            </p>
+          </div>
+        </div>
+      </a>
+      <a href="/package/{{ package.id }}" class="absolute top-3 left-3 bg-indigo-600 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-md hover:bg-indigo-700 transition">
+        Book Now
+      </a>
+    </div>
+  {% endfor %}
+</div>
+
+    <div class="text-center mt-6 md:hidden">
+      <a href="{{ url_for('packages') }}" 
+         class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-full font-semibold shadow-lg transition">
+        View More
+      </a>
+    </div>
+
+    <!-- Desktop Grid (md+) -->
+    <div class="hidden md:grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-8">
+      {% set desktop_count = 0 %}
+      {% for package in featured_packages %}
+        {% if desktop_count < 8 %}
+          <div class="relative h-full">
+            <a href="/package/{{ package.id }}" 
+               class="bg-white rounded-3xl shadow-lg overflow-hidden flex flex-col h-full transform transition-all duration-500 hover:scale-105 hover:shadow-2xl">
+              <div class="overflow-hidden h-60 flex-shrink-0">
+                <img src="{{ package.image_url }}" alt="{{ package.title }}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
+              </div>
+              <div class="p-6 flex flex-col justify-between flex-grow">
+                <div>
+                  <div class="flex justify-between items-center mb-2">
+                    <h3 class="text-xl font-semibold text-indigo-700">{{ package.title }}</h3>
+                    <span class="bg-gradient-to-r from-pink-500 to-purple-600 text-white text-sm font-bold px-4 py-1 rounded-full shadow-md">
+                      ₹{{ '%.2f'|format(package.price) }}
+                    </span>
+                  </div>
+                  <p class="text-gray-600 text-sm mb-1">
+                    <i class="fas fa-map-marker-alt text-pink-500 mr-1"></i>{{ package.location }}
+                  </p>
+                  <p class="text-gray-600 text-sm">
+                    <i class="fas fa-clock text-purple-500 mr-1"></i>{{ package.duration }} days
+                  </p>
+                </div>
+              </div>
+            </a>
+            <a href="/package/{{ package.id }}" class="absolute top-3 left-3 bg-indigo-600 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-md hover:bg-indigo-700 transition">
+              Book Now
+            </a>
+          </div>
+          {% set desktop_count = desktop_count + 1 %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const viewMoreBtn = document.getElementById('viewMoreBtn');
+    if (viewMoreBtn) {
+      viewMoreBtn.addEventListener('click', () => {
+        document.querySelectorAll('.package-card.hidden').forEach(card => {
+          card.classList.remove('hidden');
+        });
+        viewMoreBtn.style.display = 'none';
+      });
+    }
+  });
+  document.addEventListener('DOMContentLoaded', () => {
+  const carousel = document.getElementById('packageCarousel');
+  if (!carousel) return;
+
+  const cards = carousel.querySelectorAll('a');
+
+  function updateActiveCard() {
+    const center = carousel.scrollLeft + carousel.offsetWidth / 2;
+
+    let closestCard = null;
+    let closestDistance = Infinity;
+
+    cards.forEach(card => {
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+      const distance = Math.abs(center - cardCenter);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestCard = card;
+      }
+    });
+
+    cards.forEach(card => card.classList.remove('active'));
+    if (closestCard) closestCard.classList.add('active');
+  }
+
+  carousel.addEventListener('scroll', updateActiveCard);
+  updateActiveCard(); // initial
+});
+
+</script>
+
+
+  <div class="mt-12">
+    <h2 class="text-2xl font-bold mb-6 text-center text-indigo-700">What our Travelers say</h2>
+    
+<!-- Dynamic Review List - Horizontal Scroll -->
+<div class="px-4 sm:px-6 lg:px-8">
+  <div class="flex space-x-6 overflow-x-auto pb-4">
+    {% for review in general_reviews %}
+      <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-indigo-500 flex flex-col w-64 flex-shrink-0">
+        <p class="text-sm text-gray-700 italic">"{{ review.content }}"</p>
+
+        <!-- Name and stars pushed to bottom -->
+        <div class="mt-auto pt-4 text-sm text-gray-900 text-right">
+          <p class="font-semibold break-words">- {{ review.name }}</p>
+          <p class="text-yellow-400">
+            {% for i in range(review.rating) %}⭐{% endfor %}
+          </p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+<div class="text-center mt-8">
+  <button onclick="document.getElementById('reviewModal').classList.remove('hidden')" 
+          class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-md font-semibold shadow-sm transition">
+    Write a Review
+  </button>
+</div>
+
+    <!-- Review Modal -->
+<div id="reviewModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-xl shadow-lg p-6 max-w-md w-full relative">
+    <button onclick="document.getElementById('reviewModal').classList.add('hidden')" 
+            class="absolute top-2 right-3 text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+
+    <h3 class="text-xl font-semibold mb-4 text-center text-gray-900">Leave a Review</h3>
+    
+    <form action="/submit_review" method="POST" class="space-y-4">
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-700">Your Name</label>
+        <input type="text" name="name" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+      </div>
+
+      <div>
+  <label class="block text-sm font-medium text-gray-700 mb-1">Rating</label>
+  <div id="starRating" class="flex gap-1">
+    {% for i in range(1, 6) %}
+    <svg data-value="{{ i }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+      stroke="currentColor"
+      class="w-8 h-8 cursor-pointer text-gray-300 hover:text-yellow-300">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.518 4.674a1 1 0 00.95.69h4.911c.969 0 1.371 1.24.588 1.81l-3.974 2.89a1 1 0 00-.364 1.118l1.518 4.674c.3.921-.755 1.688-1.54 1.118l-3.974-2.89a1 1 0 00-1.176 0l-3.974 2.89c-.784.57-1.838-.197-1.54-1.118l1.518-4.674a1 1 0 00-.364-1.118l-3.974-2.89c-.783-.57-.38-1.81.588-1.81h4.911a1 1 0 00.95-.69l1.518-4.674z" />
+    </svg>
+    {% endfor %}
+  </div>
+  <input type="hidden" name="rating" id="ratingValue" required>
+</div>
+
+      <div>
+        <label for="content" class="block text-sm font-medium text-gray-700">Your Review</label>
+        <textarea name="content" rows="4" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-md font-semibold shadow-sm transition">
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+</div> 
+</div> 
+
+  {% include 'user_footer.html' %}
+  {% include 'mobile_footer.html' %}
+   
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const stars = document.querySelectorAll('#starRating svg');
+    const ratingInput = document.getElementById('ratingValue');
+
+    stars.forEach((star, index) => {
+      star.addEventListener('click', () => {
+        ratingInput.value = index + 1;
+        stars.forEach((s, i) => {
+          s.classList.toggle('text-yellow-400', i <= index);
+          s.classList.toggle('text-gray-300', i > index);
+        });
+      });
+    });
+  });
+</script>
+
+  <script>
+    const topBtn = document.getElementById('topBtn');
+    window.onscroll = () => {
+      topBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
+    };
+    topBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+  </script>
+
+<!----------------------tawk.to---------------------------------->
+  <script>
+  if(window.innerWidth >= 768) { // md breakpoint
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/689b7989e0fd9f192a112f77/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+}
+</script>
+<!----------------------tawk.to---------------------------------->
+
+</body>
+</html>

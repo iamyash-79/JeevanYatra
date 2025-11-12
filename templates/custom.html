@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customizable Package - MyTours</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}">
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+  {% include 'user_topbar.html' %}
+  {% include 'sidebar.html' %}
+
+  <div class="md:hidden fixed top-0 left-0 w-full bg-white shadow-lg z-50 flex items-center h-12 px-4">
+  <a href="/" 
+     class="flex items-center space-x-2 text-indigo-600 font-semibold"
+     title="Back to Package">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+    <span>Back</span>
+  </a>
+</div>
+
+<style>
+  @media (max-width: 767px) { 
+    body {
+      padding-top: 3rem; 
+    }
+  }
+</style>
+
+  <div class="max-w-4xl mx-auto p-4 md:p-6 flex-grow">
+    <h1 class="text-3xl font-bold text-indigo-700 mb-6">Build Your Own Temple Yatra</h1>
+
+    <form id="customForm" class="bg-white p-6 rounded-lg shadow space-y-6">
+
+      <!-- From and To -->
+      <div class="flex flex-col md:flex-row md:space-x-4">
+        <div class="flex-1">
+          <label class="block font-medium mb-1 text-gray-700">From</label>
+          <input type="text" id="from" placeholder="Enter Starting City" class="w-full border p-2 rounded-lg" required>
+        </div>
+        <div class="flex-1 mt-4 md:mt-0">
+          <label class="block font-medium mb-1 text-gray-700">To</label>
+          <input type="text" id="to" placeholder="Enter Destination City" class="w-full border p-2 rounded-lg" required>
+        </div>
+      </div>
+
+      <!-- Duration -->
+      <div>
+        <label class="block font-medium mb-1 text-gray-700">Duration (Days)</label>
+        <input type="number" id="duration" min="1" max="15" value="3"
+          class="w-full border border-gray-300 p-2 rounded-lg focus:ring focus:ring-indigo-200 focus:border-indigo-500 transition-colors">
+      </div>
+
+      <!-- Transport -->
+      <div>
+        <label class="block font-medium mb-1 text-gray-700">Transport</label>
+        <select id="transport" class="w-full border border-gray-300 p-2 rounded-lg focus:ring focus:ring-indigo-200 focus:border-indigo-500 transition-colors">
+          <option value="AC Sleeper">AC Sleeper</option>
+          <option value="Non-AC Sleeper">Non-AC Sleeper</option>
+          <option value="AC Seater">AC Seater</option>
+          <option value="Non-AC Seater">Non-AC Seater</option>
+          <option value="Car">Car</option>
+        </select>
+      </div>
+
+      <!-- Primary Passenger -->
+      <div>
+        <h2 class="font-semibold text-indigo-700 mb-2">Primary Passenger</h2>
+        <input type="text" id="name" placeholder="Full Name" class="w-full border p-2 rounded-lg mb-2" required>
+        <input type="text" id="mobile" placeholder="Mobile Number" class="w-full border p-2 rounded-lg mb-2" required>
+        <input type="email" id="email" placeholder="Email" class="w-full border p-2 rounded-lg mb-2" required>
+      </div>
+
+      <!-- Total Adults & Children -->
+      <div class="flex flex-col md:flex-row md:space-x-4">
+        <div class="flex-1">
+          <label class="block font-medium mb-1 text-gray-700">Total Adults</label>
+          <input type="number" id="adults" min="1" value="1" class="w-full border p-2 rounded-lg" required>
+        </div>
+        <div class="flex-1 mt-4 md:mt-0">
+          <label class="block font-medium mb-1 text-gray-700">Total Children</label>
+          <input type="number" id="children" min="0" value="0" class="w-full border p-2 rounded-lg">
+        </div>
+      </div>
+
+      <!-- Your Quote -->
+      <div class="text-lg font-bold text-indigo-600 flex justify-between items-center">
+        <label for="totalPrice">Your Quote (₹)</label>
+        <input type="number" id="totalPrice" value="0" class="w-32 border p-2 rounded-lg" min="0" placeholder="Enter your price">
+      </div>
+
+      <!-- Book Button -->
+      <button type="button" onclick="sendWhatsApp()" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors text-lg font-semibold">
+        Book Now
+      </button>
+
+    </form>
+  </div>
+
+  <script>
+    function sendWhatsApp() {
+      const from = document.getElementById("from").value.trim();
+      const to = document.getElementById("to").value.trim();
+      const duration = document.getElementById("duration").value;
+      const transport = document.getElementById("transport").value;
+      const adults = document.getElementById("adults").value;
+      const children = document.getElementById("children").value;
+      const name = document.getElementById("name").value.trim();
+      const mobile = document.getElementById("mobile").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const price = document.getElementById("totalPrice").value || 0;
+
+      if(!from || !to || !name || !mobile || !email || !adults){
+        alert("Please fill all required details"); 
+        return; 
+      }
+
+      const msg = `Hello, I want to book a Customizable Yatra:
+
+*Passenger Details:*
+Name: ${name}
+Mobile: ${mobile}
+Email: ${email}
+
+*Package Details:*
+From: ${from}
+To: ${to}
+Duration: ${duration} days
+Transport: ${transport}
+Total Adults: ${adults}
+Total Children: ${children}
+Your Quote: ₹${price}`;
+
+      const url = "https://wa.me/917987190554?text=" + encodeURIComponent(msg);
+      window.open(url, "_blank");
+    }
+  </script>
+
+ {% include 'user_footer.html' %}
+</body>
+</html>

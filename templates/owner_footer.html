@@ -1,0 +1,201 @@
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}?v=2">
+<style>
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --dark-color: #2c3e50;
+    --light-color: #ecf0f1;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  footer {
+    background: var(--dark-color);
+    color: white;
+    padding: 60px 0 20px;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+
+  .footer-column h3 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+  }
+
+  .footer-column h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 2px;
+    background: var(--primary-color);
+  }
+
+  .footer-column p {
+    margin-bottom: 15px;
+    color: #bbb;
+    line-height: 1.6;
+  }
+
+  .footer-links {
+    padding: 0;
+  }
+
+  .footer-links li {
+    margin-bottom: 12px;
+    list-style: none;
+  }
+
+  .footer-links a {
+    color: #bbb;
+    transition: color 0.3s ease;
+    text-decoration: none;
+  }
+
+  .footer-links a:hover {
+    color: white;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+  }
+
+  .social-links a:hover {
+    background: var(--primary-color);
+    transform: translateY(-3px);
+  }
+
+  .footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #bbb;
+    font-size: 0.9rem;
+  }
+
+  .footer-bottom a {
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+    text-decoration: none;
+  }
+
+  .footer-bottom a:hover {
+    color: var(--secondary-color);
+  }
+
+  @media (max-width: 768px) {
+    .footer-content {
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .footer-content {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+    .footer-column {
+      text-align: center;
+    }
+    .footer-column h3::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .social-links {
+      justify-content: center;
+    }
+  }
+</style>
+
+<!-- Footer Section -->
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      
+      <!-- About -->
+      <div class="footer-column">
+        <h3>About JeevanYatra</h3>
+        <p>At JeevanYatra, we design journeys that go beyond destinations. From spiritual yatras to exotic getaways, we ensure a seamless and memorable travel experience for every traveler.</p>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-column">
+        <h3>Quick Links</h3>
+        <ul class="footer-links">
+          <li><a href="/about_us">About Us</a></li>
+          <li><a href="/partner">Contact</a></li>
+          <li><a href="/privacy_policy">Privacy Policy</a></li>
+          <li><a href="/terms">Terms & Conditions</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-column">
+        <h3>Contact Us</h3>
+        <p><i class="fas fa-map-marker-alt"></i> 123 Travel Street, Suite 456</p>
+        <p><i class="fas fa-phone"></i> +1 (123) 456-7890</p>
+        <p><i class="fas fa-envelope"></i> partner@jeevanyatra.co.in</p>
+        <p><i class="fas fa-clock"></i> Mon-Fri: 9AM - 6PM</p>
+      </div>
+    </div>
+
+    <!-- Bottom -->
+    <div class="footer-bottom">
+      <p>&copy; 2023 JeevanYatra. All Rights Reserved.</p>
+
+      <p class="mt-2 text-sm text-gray-400">
+        👁️ Total Visitors:
+        <span class="text-white font-semibold">{{ total_visitors }}</span>
+      </p>
+
+      <p class="mt-2 text-sm text-gray-400">
+        Created & Managed by
+        <a href="https://digiyash.tech/" target="_blank" rel="noopener noreferrer" class="text-indigo-400 font-semibold hover:underline">
+          DigiYash
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JeevanYatra - Explore Destinations</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}?v=2">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- AOS Animation CSS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+  <style>
+    @page {
+      size: auto;
+      margin: 0;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 12px;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+    }
+
+    /* Fix mobile padding for fixed top back button */
+    @media (max-width: 767px) {
+      body {
+        padding-top: 3rem; /* space for fixed top bar */
+        padding-bottom: 20px; /* optional bottom padding */
+      }
+    }
+
+    /* Container to allow horizontal scroll on mobile if needed */
+    .ticket-wrapper {
+      overflow-x: auto;
+      padding: 0 1rem;
+    }
+
+    /* 🎫 Ticket Styling */
+    .ticket {
+      width: 600px;
+      margin: 40px auto 40px auto; /* adjusted top margin */
+      background: #fff;
+      border: 2px dashed #222;
+      border-radius: 8px;
+      padding: 20px 25px;
+      position: relative;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    .ticket.cancelled::before {
+      content: "CANCELLED";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-30deg);
+      font-size: 48px;
+      font-weight: bold;
+      color: rgba(186, 18, 18, 0.967);
+      z-index: 0;
+      white-space: nowrap;
+    }
+
+    .header {
+      border-bottom: 1px dashed #ccc;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .logo {
+      font-size: 25px;
+      font-weight: bold;
+      color: #007b5e;
+      line-height: 1.2;
+    }
+    .support-info {
+      font-size: 11px;
+      color: #444;
+      line-height: 1.3;
+    }
+    .support-info span {
+      display: block;
+    }
+    .details {
+  font-size: 12px;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; 
+  gap: 4px; 
+}
+
+.details > div {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.qr-small {
+  align-self: flex-end; 
+  margin-bottom: 4px;
+}
+    .section {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .section .left, .section .right {
+      width: 48%;
+    }
+    .label {
+      font-weight: bold;
+      color: #333;
+    }
+    .info {
+      margin-bottom: 4px;
+      position: relative;
+      z-index: 1;
+    }
+    .status {
+      font-size: 16px;
+      font-weight: bold;
+      color: #007b5e;
+      margin-top: 8px;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 15px;
+      border-top: 1px dashed #bbb;
+      padding-top: 10px;
+      font-size: 11px;
+      color: #666;
+      position: relative;
+      z-index: 1;
+    }
+    .footer span {
+      color: #000;
+      font-weight: bold;
+    }
+
+    /* Print Button */
+    .print-btn-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .print-btn {
+      background-color: #007b5e;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .print-btn:hover {
+      background-color: #005f47;
+    }
+    @media print {
+      /* Hide everything except ticket */
+      body * {
+        visibility: hidden;
+      }
+      .ticket, .ticket * {
+        visibility: visible;
+      }
+      .ticket {
+        position: relative;
+        margin: 0 auto;
+        box-shadow: none;
+        border: 2px dashed #222 !important;
+        background: white;
+        max-width: 100%;
+      }
+      /* Remove shadows and page margins for print */
+      @page {
+        margin: 0.5in;
+      }
+    }
+  </style>
+</head>
+<body>
+{% include 'user_topbar.html' %}
+  {% include 'sidebar.html' %}
+
+    <!-- Fixed Top Back Button -->
+  <div class="md:hidden fixed top-0 left-0 w-full bg-white shadow-lg z-50 flex items-center h-12 px-4">
+    <a href="/user_booking" 
+       class="flex items-center space-x-2 text-indigo-600 font-semibold"
+       title="Back to Package">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+      <span>Back</span>
+    </a>
+  </div>
+
+  <!-- Ticket Wrapper for horizontal scroll on mobile -->
+  <div class="ticket-wrapper">
+    <div class="ticket {% if booking.status == 'cancelled' %}cancelled{% endif %}" id="ticket">
+      <!-- Your ticket content here unchanged -->
+      <div class="header">
+        <div>
+          <div class="logo" style="margin-bottom: 10px;">🚌 JeevanYatra</div>
+          <div class="support-info">
+            <span><strong>📍 Address:</strong> 123 Main Street, Pune, MH, India</span>
+            <span><strong>📞 Phone:</strong> +91 7987190554</span>
+            <span><strong>📧 Email:</strong> contact@jeevanyatra.co.in</span>
+          </div>
+        </div>
+        <div class="details">
+          <div class="qr-small">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=https://jeevanyatra.co.in/ticket/{{ booking.id }}" alt="QR Code" />
+          </div>
+          <div><span class="label">Booking ID:</span> {{ booking.id }}</div>
+          <div><span class="label">Date:</span> {{ booking.booking_time }}</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="left">
+          <div class="info"><span class="label">Name:</span> {{ booking.primary_name }}</div>
+          <div class="info"><span class="label">Mobile:</span> {{ booking.primary_mobile }}</div>
+          <div class="info"><span class="label">Email:</span> {{ booking.primary_email }}</div>
+          <div class="info"><span class="label">Gender:</span>
+            {% if booking.primary_gender == 1 %}Male
+            {% elif booking.primary_gender == 2 %}Female
+            {% elif booking.primary_gender == 3 %}Other
+            {% else %}Unknown{% endif %}
+          </div>
+          <div class="info"><span class="label">Age:</span> {{ booking.primary_age }}</div>
+          {% if booking.status != 'cancelled' %}
+            <div class="status">Status: {{ booking.status|upper }}</div>
+          {% endif %}
+        </div>
+
+        <div class="right">
+          <div class="info"><span class="label">Package ID:</span> {{ booking.package_id }}</div>
+          <div class="info"><span class="label">Boarding Point:</span> {{ booking.boarding_point }}</div>
+          <div class="info"><span class="label">Date Of Journey:</span> {{ booking.start_date }}</div>
+          <div class="info"><span class="label">Passengers:</span> A{{ booking.total_adults }}, C{{ booking.total_child }}</div>
+          <div class="info"><span class="label">Total Price:</span> ₹{{ booking.total_price }}</div>
+          <div class="info"><span class="label">Paid:</span> ₹{{ booking.paid_amount }}</div>
+          <div class="info"><span class="label">Payment ID:</span> {{ booking.razorpay_payment_id }}</div>
+        </div>
+      </div>
+
+      <div class="footer">
+        🧳 Thank you for booking with <span>JeevanYatra</span>. Wishing you a safe and happy journey! ✨
+      </div>
+    </div>
+  </div>
+
+  <!-- 🖨️ Print Button -->
+  <div class="print-btn-container">
+    <button class="print-btn" onclick="window.print()">🖨️ Print Ticket</button>
+  </div>
+
+    {% include 'user_footer.html' %}
+
+</body>
+</html>

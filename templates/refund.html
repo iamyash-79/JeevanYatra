@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Refund & Cancellation Policy | JeevanYatra</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}?v=2">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-b from-gray-50 to-gray-100 text-gray-800">
+{% include 'user_topbar.html' %}
+  {% include 'mobile_topbar.html' %}
+  {% include 'sidebar.html' %}
+  <!-- Hero Section -->
+  <section class="bg-indigo-600 text-white py-16 text-center shadow-lg">
+    <h2 class="text-4xl font-bold mb-3">Refund & Cancellation Policy</h2>
+    <p class="text-lg max-w-2xl mx-auto">Our commitment to providing clear, fair, and transparent policies for your bookings.</p>
+  </section>
+
+  <!-- Policy Content -->
+  <section class="max-w-5xl mx-auto p-6 bg-white rounded-xl shadow-lg mt-8">
+    <h3 class="text-2xl font-bold text-indigo-700 mb-4">1. Cancellation Policy</h3>
+    <ul class="list-disc pl-6 space-y-2 text-gray-700">
+      <li>80% refund if cancelled at least 7 days before the trip start date.</li>
+      <li>60% refund if cancelled between 4 days before the trip.</li>
+      <li>40% refund if cancelled between 2 days before the trip.</li>
+      <li>No refund for cancellations made within 48 hours of the trip.</li>
+      <li>All cancellations must be requested via email or our website form.</li>
+    </ul>
+
+    <h3 class="text-2xl font-bold text-indigo-700 mt-8 mb-4">2. Refund Policy</h3>
+    <ul class="list-disc pl-6 space-y-2 text-gray-700">
+      <li>Refunds will be processed within 7-10 business days after cancellation confirmation.</li>
+      <li>Refunds will be credited to the original payment method only.</li>
+      <li>Any bank charges or payment gateway fees are non-refundable.</li>
+    </ul>
+
+    <h3 class="text-2xl font-bold text-indigo-700 mt-8 mb-4">3. Exceptions</h3>
+    <ul class="list-disc pl-6 space-y-2 text-gray-700">
+      <li>In case of force majeure events (natural disasters, government restrictions, etc.), we will offer rescheduling instead of refunds.</li>
+      <li>Custom packages may have separate cancellation terms, mentioned at the time of booking.</li>
+    </ul>
+
+    <div class="mt-8 p-4 bg-indigo-50 rounded-lg border border-indigo-200">
+      <p class="font-medium text-indigo-800">
+        📌 For any queries, please contact us at 
+        <a href="mailto:contact@jeevanyatra.co.in" class="underline text-indigo-700">contact@jeevanyatra.co.in</a>
+        or call +91-8085917824.
+      </p>
+    </div>
+  </section>
+
+{% include 'user_footer.html' %}
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/689b7989e0fd9f192a112f77/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+</body>
+</html>

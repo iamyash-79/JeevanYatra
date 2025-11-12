@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JeevanYatra – Owner Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}?v=2">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans min-h-screen flex flex-col">
+
+  {% include 'owner_topbar.html' %}
+
+  <main class="flex-1 max-w-7xl mx-auto px-6 py-10">
+
+    <!-- Page Heading -->
+    <div class="mb-10">
+      <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-3">
+        <span class="bg-blue-100 text-blue-600 p-2 rounded-lg"><i class="fas fa-tachometer-alt"></i></span>
+        Owner Dashboard
+      </h1>
+      <p class="text-gray-500 mt-1">Monitor and manage your travel agency performance.</p>
+    </div>
+
+    <!-- Overview Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <!-- Total Packages -->
+      <div class="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition p-6">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-sm font-semibold text-gray-500">Total Packages</h2>
+          <span class="text-green-500 text-xl"><i class="fas fa-box"></i></span>
+        </div>
+        <p class="text-4xl font-bold text-green-600">{{ total_packages }}</p>
+      </div>
+
+      <!-- Total Bookings -->
+      <div class="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition p-6">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-sm font-semibold text-gray-500">Total Bookings</h2>
+          <span class="text-yellow-500 text-xl"><i class="fas fa-ticket-alt"></i></span>
+        </div>
+        <p class="text-4xl font-bold text-yellow-500">{{ total_bookings }}</p>
+      </div>
+
+      <!-- Earnings -->
+      <div class="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition p-6">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-sm font-semibold text-gray-500">Earnings</h2>
+          <span class="text-blue-500 text-xl"><i class="fas fa-wallet"></i></span>
+        </div>
+        <p class="text-4xl font-bold text-blue-600">₹{{ total_earnings }}</p>
+      </div>
+
+      <!-- Next Package -->
+      <div class="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition p-6">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-sm font-semibold text-gray-500">Next Package</h2>
+          <span class="text-purple-500 text-xl"><i class="fas fa-plane-departure"></i></span>
+        </div>
+        {% if next_package %}
+          <p class="text-lg font-semibold text-gray-800">
+            {{ next_package['title'] }}
+          </p>
+          <p class="text-sm text-gray-500">
+            {{ next_package['location'] }} • {{ next_package['start_date'] }}
+          </p>
+        {% else %}
+          <p class="text-sm text-gray-500">No packages scheduled.</p>
+        {% endif %}
+      </div>
+
+    </div>
+
+  </main>
+
+  {% include 'owner_footer.html' %}
+</body>
+</html>

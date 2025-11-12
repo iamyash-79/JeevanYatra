@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ package.title }}</title>
+    
+    <meta property="og:title" content="{{ package.title }}" />
+    <meta property="og:description" content="Discover this amazing {{ package.duration }}-day tour to {{ package.location }} for just ₹{{ package.price }}. Find out more about this unforgettable journey!" />
+    <meta property="og:image" content="{{ package.image_url }}" />
+    <meta property="og:url" content="{{ request.url }}" />
+    <meta property="og:type" content="website" />
+    
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}?v=2">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='logo.png') }}">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Single Package Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TouristTrip",
+  "name": "{{ package.name }}",
+  "alternateName": "{{ package.name }}",
+  "description": "{{ package.description }}",
+  "touristType": "Pilgrimage Tour",
+  "offers": {
+    "@type": "Offer",
+    "price": "{{ package.price }}",
+    "priceCurrency": "INR",
+    "url": "https://jeevanyatra.co.in/package/{{ package.id }}"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "JeevanYatra",
+    "url": "https://jeevanyatra.co.in",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ url_for('static', filename='logo.png', _external=True) }}"
+    }
+  }
+}
+</script>
+    <style>
+    .sticky-book-btn {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999; /* ↑ Ensures it stays above everything */
+    width: 90%;
+    max-width: 20rem;
+    display: none;
+}
+@media (max-width: 767px) {
+    .sticky-book-btn {
+        display: block !important; /* ↑ Force show in mobile */
+    }
+}
+</style>
+</head>
+<a href="/book_package/{{ package.id }}" 
+   class="sticky-book-btn bg-indigo-600 hover:bg-indigo-700 text-white text-center py-3 rounded-lg font-semibold transition-colors duration-200 shadow-xl">
+    Book This Trip Now!
+</a>
+
+<body class="bg-gray-100 text-gray-800">
+    {% include 'user_topbar.html' %}
+  {% include 'sidebar.html' %}
+
+  <div class="md:hidden fixed top-0 left-0 w-full bg-white shadow-lg z-50 flex items-center h-12 px-4">
+  <a href="/packages" 
+     class="flex items-center space-x-2 text-indigo-600 font-semibold"
+     title="Back to Package">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+    <span>Back</span>
+  </a>
+</div>
+
+<style>
+  @media (max-width: 767px) { 
+    body {
+      padding-top: 3rem; 
+    }
+  }
+</style>
+
+    <div class="relative w-full h-96 overflow-hidden">
+        <img src="{{ package.image_url }}" alt="{{ package.title }}" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-2">{{ package.title }}</h1>
+                <p class="text-lg md:text-xl text-gray-200">{{ package.duration }} days trip to {{ package.location }}</p>
+            </div>
+        </div>
+    </div>
+
+<div class="max-w-6xl mx-auto px-4 py-10" style="padding-bottom: 5.2rem;">
+
+    <div class="grid md:grid-cols-3 gap-8">
+        <div class="md:col-span-2 bg-white rounded-xl shadow-lg p-6 lg:p-8">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold text-indigo-700">Package Overview</h2>
+                <span class="text-2xl font-bold text-green-600">₹{{ package.price }}</span>
+            </div>
+
+            <!-- INFO ROW (location, duration, start_date) -->
+            <div class="flex items-center space-x-6 text-sm text-gray-600 mb-2">
+                <p class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                    </svg>
+                    {{ package.location }}
+                </p>
+                <p class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {{ package.duration }} days
+                </p>
+                <p class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    {{ package.start_date }}
+                </p>
+            </div>
+
+            <!-- TIMER BELOW THAT -->
+            <div id="booking-timer" class="text-lg font-semibold mt-3"></div>
+
+            <hr class="my-4">
+
+                
+
+                <div class="mt-6">
+    <h3 class="text-xl font-semibold mb-3 text-gray-900">What's Included</h3>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-700">
+        {% for item in package.inclusions %}
+        <li class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+            {{ item }}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-3 text-gray-900">Day-wise Itinerary</h3>
+                    <pre class="whitespace-pre-wrap text-sm text-gray-700 bg-gray-50 p-4 rounded-lg border border-gray-200">{{ package.itinerary }}</pre>
+                </div>
+
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-3 text-gray-900">Hotel & Stay</h3>
+                    <p class="text-sm text-gray-700">{{ package.hotel_info }}</p>
+                </div>
+
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-3 text-gray-900">Important Information (FAQs)</h3>
+                    <ul class="space-y-2 text-sm text-gray-700">
+                        <li class="flex items-start"><span class="text-indigo-500 mr-2">❓</span> <strong>What’s included in the package?</strong><br />This covers accommodation, meals as specified, and guided tours. See the 'Inclusions' section for details.</li>
+                        <li class="flex items-start"><span class="text-indigo-500 mr-2">🚫</span> <strong>What’s not included?</strong><br />Personal expenses, additional activities, and travel insurance are not part of the package price.</li>
+                        <li class="flex items-start"><span class="text-indigo-500 mr-2">✈️</span> <strong>Does this include airfare?</strong><br />No, airfare is not included unless explicitly mentioned. Please arrange your own flights to and from the starting point.</li>
+                        <li class="flex items-start"><span class="text-indigo-500 mr-2">♻️</span> <strong>What is the cancellation policy?</strong><br />Cancellations made 30 days before the start date receive a full refund. Cancellations within 30 days are subject to a fee.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 sticky top-24 h-fit hidden md:block">
+                <h3 class="text-2xl font-bold mb-4 text-indigo-700 text-center">Ready to Book?</h3>
+                <div class="mt-4">
+                    <h4 class="text-lg font-semibold mb-2">Exclusive Offers</h4>
+                    <div class="bg-yellow-100 p-3 rounded-lg mb-2 border border-yellow-200">
+                        <p class="text-sm"><strong>Flat ₹500 OFF</strong> on bookings over ₹10,000</p>
+                        <p class="text-xs font-mono text-gray-600 mt-1">Use Code: <span class="font-bold text-yellow-800">TRAVEL500</span></p>
+                    </div>
+                    <div class="bg-green-100 p-3 rounded-lg border border-green-200">
+                        <p class="text-sm"><strong>Family Pack: 10% OFF</strong> for groups of 3+ people</p>
+                        <p class="text-xs font-mono text-gray-600 mt-1">Use Code: <span class="font-bold text-green-800">FAMILY10</span></p>
+                    </div>
+                </div>
+
+                <a href="/book_package/{{ package.id }}" class="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white text-center block py-3 rounded-lg font-semibold transition-colors duration-200 transform hover:scale-105">
+                    Book This Trip Now!
+                </a>
+                
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-gray-600">Need help with your booking?</p>
+                    <a href="https://wa.me/7987190554?text=Hello! I am interested in the package: {{ package.title }} (ID: {{ package.id }}). Can you help me with the booking?" target="_blank" class="text-green-500 hover:underline inline-flex items-center mt-2">
+                        <i class="fab fa-whatsapp text-lg mr-2"></i> Chat with an Expert
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-12">
+            <h3 class="text-xl font-bold text-center mb-4">Share This Package</h3>
+            <div class="flex justify-center space-x-6">
+                <a href="https://wa.me/?text=Check out this incredible tour package: {{ package.title }}!%0A%0A✈️ Location: {{ package.location }}%0A⏰ Duration: {{ package.duration }} days%0A💰 Price: ₹{{ package.price }}%0A%0AFind all the details here: {{ request.url }}" target="_blank" class="text-green-500 hover:text-green-700 transition-colors duration-200 text-3xl">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.url }}" target="_blank" class="text-blue-600 hover:text-blue-800 transition-colors duration-200 text-3xl">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="https://twitter.com/intent/tweet?url={{ request.url }}&text=Just found this awesome tour package: {{ package.title }}! Check it out: " target="_blank" class="text-blue-400 hover:text-blue-600 transition-colors duration-200 text-3xl">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="mt-12">
+    <h2 class="text-2xl font-bold mb-6 text-center text-indigo-700">What our Travelers say</h2>
+
+    <!-- Dynamic Review List - Horizontal Scroll -->
+<div class="px-4 sm:px-6 lg:px-8">
+  <div class="flex space-x-6 overflow-x-auto pb-4">
+    {% for review in reviews %}
+      <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-indigo-500 flex flex-col w-64 flex-shrink-0">
+        <p class="text-sm text-gray-700 italic">"{{ review.content }}"</p>
+
+        <!-- Name and stars pushed to bottom -->
+        <div class="mt-auto pt-4 text-sm text-gray-900 text-right">
+          <p class="font-semibold break-words">- {{ review.name }}</p>
+          <p class="text-yellow-400">
+            {% for i in range(review.rating) %}⭐{% endfor %}
+          </p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="text-center mt-8">
+  <button onclick="document.getElementById('reviewModal').classList.remove('hidden')" 
+          class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md font-semibold shadow-sm transition">
+    Write a Review
+  </button>
+</div>
+
+
+    <!-- Review Modal -->
+<div id="reviewModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-xl shadow-lg p-6 max-w-md w-full relative">
+    <button onclick="document.getElementById('reviewModal').classList.add('hidden')" 
+            class="absolute top-2 right-3 text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+
+    <h3 class="text-xl font-semibold mb-4 text-center text-gray-900">Leave a Review</h3>
+    
+    <form action="/submit_review/{{ package.id }}" method="POST" class="space-y-4">
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-700">Your Name</label>
+        <input type="text" name="name" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+      </div>
+
+      <div>
+  <label class="block text-sm font-medium text-gray-700 mb-1">Rating</label>
+  <div id="starRating" class="flex gap-1">
+    {% for i in range(1, 6) %}
+    <svg data-value="{{ i }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+      stroke="currentColor"
+      class="w-8 h-8 cursor-pointer text-gray-300 hover:text-yellow-300">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.518 4.674a1 1 0 00.95.69h4.911c.969 0 1.371 1.24.588 1.81l-3.974 2.89a1 1 0 00-.364 1.118l1.518 4.674c.3.921-.755 1.688-1.54 1.118l-3.974-2.89a1 1 0 00-1.176 0l-3.974 2.89c-.784.57-1.838-.197-1.54-1.118l1.518-4.674a1 1 0 00-.364-1.118l-3.974-2.89c-.783-.57-.38-1.81.588-1.81h4.911a1 1 0 00.95-.69l1.518-4.674z" />
+    </svg>
+    {% endfor %}
+  </div>
+  <input type="hidden" name="rating" id="ratingValue" required>
+</div>
+
+      <div>
+        <label for="content" class="block text-sm font-medium text-gray-700">Your Review</label>
+        <textarea name="content" rows="4" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-md font-semibold shadow-sm transition">
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+</div> 
+</div> 
+
+<script>
+  const stars = document.querySelectorAll('#starRating svg');
+  const ratingInput = document.getElementById('ratingValue');
+
+  stars.forEach((star, index) => {
+    star.addEventListener('click', () => {
+      ratingInput.value = index + 1;
+      stars.forEach((s, i) => {
+        s.classList.toggle('text-yellow-400', i <= index);
+        s.classList.toggle('text-gray-300', i > index);
+      });
+    });
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const tripStart = new Date("{{ package.start_date }}".replace(" ", "T"));
+    const bookingDeadline = new Date(tripStart.getTime() - 24 * 60 * 60 * 1000);
+
+    const timerEl = document.getElementById("booking-timer");
+    const bookBtn = document.querySelector(".sticky-book-btn");
+
+    function updateTimer() {
+      const now = new Date();
+      const distance = bookingDeadline - now;
+
+      if (distance <= 0) {
+        timerEl.textContent = "⛔ Booking Closed – Opening Shortly";
+        timerEl.classList.remove("text-green-600", "text-yellow-500");
+        timerEl.classList.add("text-red-600");
+        if (bookBtn) bookBtn.classList.add("hidden");
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((distance / (1000 * 60)) % 60);
+      const seconds = Math.floor((distance / 1000) % 60);
+
+      // Update timer text
+      timerEl.textContent = `⏳ Time left to book: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+      // Change color based on time left
+      if (distance < 24 * 60 * 60 * 1000) {
+        timerEl.classList.remove("text-green-600");
+        timerEl.classList.add("text-red-600");
+      } else {
+        timerEl.classList.remove("text-red-600");
+        timerEl.classList.add("text-green-600");
+      }
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 1000);
+  });
+</script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/689b7989e0fd9f192a112f77/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+<div class="hidden md:block">
+    {% include 'user_footer.html' %}
+</div>
+</body>
+</html>

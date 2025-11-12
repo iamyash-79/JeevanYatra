@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JeevanYatra - Explore Destinations</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}?v=2">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- AOS Animation CSS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+  <!-- AOS Library -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #e2e8f0;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+  {% include 'user_topbar.html' %}
+
+ <div class="md:hidden fixed top-0 left-0 w-full bg-white shadow-lg z-50 flex items-center h-12 px-4">
+  <a href="/" 
+     class="flex items-center space-x-2 text-indigo-600 font-semibold"
+     title="Back to Package">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+    <span>Back</span>
+  </a>
+</div>
+
+<style>
+  @media (max-width: 767px) { 
+    body {
+      padding-top: 3rem; 
+    }
+  }
+</style>
+
+  <main class="flex-grow py-10 px-4 max-w-4xl mx-auto">
+    <!-- Inside <form> under main -->
+<form method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-xl border border-gray-200 shadow-md">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="space-y-4">
+      <!-- 🔹 Full Name -->
+      <div>
+        <label class="text-sm font-semibold text-gray-700">Full Name</label>
+        <input type="text" name="full_name" value="{{ user.full_name }}" required
+          class="w-full px-3 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-indigo-300 focus:outline-none"/>
+      </div>
+
+      <!-- 🔹 Date of Birth -->
+      <div>
+        <label class="text-sm font-semibold text-gray-700">Date of Birth</label>
+        <input type="date" name="dob" value="{{ user.dob }}"
+          class="w-full px-3 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-indigo-300 focus:outline-none"/>
+      </div>
+
+      <!-- 🔹 Gender -->
+      <div>
+        <label class="text-sm font-semibold text-gray-700">Gender</label>
+        <select name="gender_id" required
+          class="w-full px-3 py-2 rounded-md border border-gray-300 bg-white text-gray-800 focus:ring-2 focus:ring-indigo-300 focus:outline-none">
+          <option value="1" {% if user.gender_id|int == 1 or not user.gender_id %}selected{% endif %}>Male</option>
+          <option value="2" {% if user.gender_id|int == 2 %}selected{% endif %}>Female</option>
+          <option value="3" {% if user.gender_id|int == 3 %}selected{% endif %}>Other</option>
+        </select>
+      </div>
+
+      <!-- 🔹 Save Button -->
+      <button type="submit"
+        class="px-4 py-2 rounded-md bg-indigo-500 text-white hover:bg-indigo-400 shadow w-full lg:w-auto">
+        💾 Save Changes
+      </button>
+    </div>
+
+    <!-- 🔹 User Avatar -->
+    <div class="flex flex-col items-center justify-center space-y-2">
+      {% if user.gender_id|int == 2 %}
+        <img src="{{ url_for('static', filename='images/default_female.png') }}" class="w-32 h-32 rounded-full border-2 border-indigo-300" />
+      {% else %}
+        <img src="{{ url_for('static', filename='images/default_male.png') }}" class="w-32 h-32 rounded-full border-2 border-indigo-300" />
+      {% endif %}
+    </div>
+  </div>
+</form>
+
+    <!-- Login Info Card -->
+    <div class="mt-10 bg-white p-6 rounded-xl border border-gray-200 shadow">
+      <h2 class="text-xl font-semibold text-indigo-600 mb-4">🔐 Login Info</h2>
+      <div class="space-y-6">
+        <div class="relative">
+          <label class="text-gray-600 block">Email</label>
+          <p class="text-gray-900 mt-1 break-all">{{ user.email }}</p>
+          <button onclick="document.getElementById('infoModal').classList.remove('hidden')"
+            class="absolute top-0 right-0 text-xs px-2 py-1 bg-blue-500 text-white rounded shadow hover:bg-blue-400">✉️ Change</button>
+        </div>
+        <div class="relative">
+          <label class="text-gray-600 block">Mobile</label>
+          <p class="text-gray-900 mt-1 break-words">{{ user.contact }}</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Info Modal -->
+  <div id="infoModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center hidden z-50">
+    <div class="bg-white p-6 rounded-xl border border-gray-200 text-gray-900 w-full max-w-md relative shadow-xl">
+      <button onclick="document.getElementById('infoModal').classList.add('hidden')" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-xl">&times;</button>
+      <h2 class="text-xl font-semibold mb-4 text-indigo-600">Change Email or Mobile</h2>
+      <form method="POST" action="/change-info" class="space-y-4" id="change-info-form">
+        <label class="text-sm font-medium block">New Email</label>
+        <div class="flex gap-2">
+          <input type="email" name="email" id="change-email" placeholder="you@example.com"
+            class="flex-1 px-3 py-2 rounded-md border border-gray-300" />
+          <button type="button" onclick="sendChangeOTP()"
+            class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-400">Send OTP</button>
+        </div>
+
+        <div id="change-otp-section" style="display: none;">
+          <label class="text-sm font-medium block mt-2">Enter OTP</label>
+          <div class="flex gap-2">
+            <input type="text" id="change-otp" name="otp"
+              class="flex-1 px-3 py-2 rounded-md border border-gray-300" />
+            <button type="button" onclick="verifyChangeOTP()"
+              class="px-3 py-2 bg-green-500 text-white rounded hover:bg-green-400">Verify</button>
+          </div>
+        </div>
+
+        <div class="text-center text-sm text-gray-400 font-medium">OR</div>
+
+        <label class="text-sm font-medium block mt-2">New Mobile</label>
+        <input type="text" name="contact" placeholder="New Mobile Number"
+          class="w-full px-3 py-2 rounded-md border border-gray-300" />
+
+        <button type="submit"
+          class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-400 shadow mt-2 w-full">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="hidden md:block">
+    {% include 'user_footer.html' %}
+</div>
+
+  <script>
+    function sendChangeOTP() {
+      const email = document.getElementById("change-email").value.trim();
+      if (!email) return alert("⚠️ Enter your email to send OTP.");
+      fetch("/send-user-otp", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("✅ OTP sent.");
+          document.getElementById("change-otp-section").style.display = "block";
+        } else alert("❌ " + (data.message || "Failed to send OTP."));
+      })
+      .catch(() => alert("❌ Something went wrong."));
+    }
+
+    function verifyChangeOTP() {
+      const otp = document.getElementById("change-otp")?.value.trim();
+      if (!otp) return alert("⚠️ Enter the OTP.");
+      fetch("/verify-user-otp", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ otp })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.verified) {
+          alert("✅ OTP Verified!");
+          document.getElementById("change-otp").style.backgroundColor = "#d1fae5";
+        } else alert("❌ " + (data.message || "Incorrect OTP."));
+      })
+      .catch(() => alert("❌ Could not verify OTP."));
+    }
+  </script>
+
+</body>
+</html>

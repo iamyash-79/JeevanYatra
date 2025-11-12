@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms & Conditions | JeevanYatra</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}?v=2">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    /* Simple, lightweight animations */
+    @keyframes fadeInUp { from {opacity: 0; transform: translateY(12px)} to {opacity: 1; transform: translateY(0)} }
+    .fade-up { animation: fadeInUp .6s ease-out both; }
+    details[open] .rotate { transform: rotate(180deg); }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+{% include 'user_topbar.html' %}
+  {% include 'mobile_topbar.html' %}
+  {% include 'sidebar.html' %}
+  <!-- Hero -->
+  <section class="bg-gradient-to-b from-gray-100 to-gray-200 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 py-12 text-center fade-up">
+      <h1 class="text-4xl md:text-5xl font-extrabold text-indigo-900">Terms & Conditions</h1>
+      <p class="mt-3 text-gray-700 max-w-3xl mx-auto">These Terms & Conditions ("Terms") govern your access to and use of the JeevanYatra website, mobile interfaces, and travel services. Please read them carefully before using our platform or making any booking.</p>
+    </div>
+  </section>
+
+  <!-- Page Layout -->
+  <main class="max-w-7xl mx-auto px-6 py-10 grid lg:grid-cols-12 gap-8">
+    <!-- TOC -->
+    <aside class="lg:col-span-3">
+      <div class="bg-white rounded-xl shadow p-5 sticky top-24">
+        <h2 class="text-sm font-semibold text-indigo-900 uppercase tracking-wider">On this page</h2>
+        <ol class="mt-3 space-y-2 text-sm text-gray-700 list-decimal list-inside">
+          <li><a href="#intro" class="hover:text-indigo-700">Introduction</a></li>
+          <li><a href="#definitions" class="hover:text-indigo-700">Definitions</a></li>
+          <li><a href="#eligibility" class="hover:text-indigo-700">Eligibility to Use</a></li>
+          <li><a href="#booking" class="hover:text-indigo-700">Booking & Payment</a></li>
+          <li><a href="#pricing" class="hover:text-indigo-700">Pricing & Inclusions</a></li>
+          <li><a href="#cancellation" class="hover:text-indigo-700">Cancellation & Refunds</a></li>
+          <li><a href="#changes-by-user" class="hover:text-indigo-700">Changes by Customer</a></li>
+          <li><a href="#documents" class="hover:text-indigo-700">Travel Documents</a></li>
+          <li><a href="#responsibilities" class="hover:text-indigo-700">Customer Responsibilities</a></li>
+          <li><a href="#company-rights" class="hover:text-indigo-700">Company’s Rights</a></li>
+          <li><a href="#liability" class="hover:text-indigo-700">Limitation of Liability</a></li>
+          <li><a href="#ip" class="hover:text-indigo-700">Intellectual Property</a></li>
+          <li><a href="#privacy" class="hover:text-indigo-700">Privacy & Data</a></li>
+          <li><a href="#law" class="hover:text-indigo-700">Governing Law</a></li>
+          <li><a href="#contact" class="hover:text-indigo-700">Contact</a></li>
+        </ol>
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <section class="lg:col-span-9 space-y-6">
+
+      <!-- Section Template: details/summary accordion -->
+      <details id="intro" class="bg-white rounded-xl shadow p-6 fade-up group">
+        <summary class="cursor-pointer flex items-center justify-between">
+          <h3 class="text-2xl font-bold text-indigo-800">1) Introduction</h3>
+          <svg class="w-5 h-5 text-gray-500 transition-transform rotate" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <div class="mt-4 leading-7 text-gray-700 space-y-4">
+          <p>JeevanYatra Private Limited (“JeevanYatra”, “we”, “us”, or “our”) welcomes you to our website, mobile experiences, and customer support channels (collectively, the “Platform”). These Terms & Conditions (“Terms”) are a legally binding agreement between you and JeevanYatra and govern your access to, and use of, the Platform and all services we provide, including discovery of travel packages, custom itineraries, reservations, payments, and customer support (collectively, the “Services”). By browsing the Platform, creating an account, initiating a booking, or otherwise using any Service, you acknowledge that you have read, understood, and agree to be bound by these Terms, together with any policies referenced herein, such as our Privacy Policy and Refund & Cancellation Policy. If you do not agree, you must not use the Platform or Services.</p>
+          <p>We may update these Terms to reflect operational, legal, or regulatory changes. The “Last Updated” date will be shown at the top of this page. Continued use after an update constitutes acceptance of the revised Terms. These Terms apply in addition to any itinerary-specific conditions disclosed at the time of booking. In the event of a conflict, the itinerary-specific conditions will prevail for that booking. Nothing in these Terms affects your non-excludable statutory rights under applicable law.</p>
+        </div>
+      </details>
+
+      <details id="definitions" class="bg-white rounded-xl shadow p-6 fade-up group">
+        <summary class="cursor-pointer flex items-center justify-between">
+          <h3 class="text-2xl font-bold text-indigo-800">2) Definitions</h3>
+          <svg class="w-5 h-5 text-gray-500 transition-transform rotate" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <div class="mt-4 leading-7 text-gray-700 space-y-4">
+          <p>For clarity, the following terms have the meanings set out below unless the context requires otherwise: “Customer”, “Traveller”, “User”, or “you” refers to any person who accesses the Platform, requests a quotation, makes a booking, or otherwise uses the Services. “Booking” means a reservation for any travel product or service, whether a packaged tour, hotel, transfer, activity, ticket, or custom itinerary. “Itinerary” means a specific sequence of services, dates, inclusions, exclusions, and conditions as confirmed in writing by us. “Third‑Party Provider” means any airline, hotel, transport company, activity operator, guide, or vendor engaged to deliver part of the Services.</p>
+          <p>“Service Fees” means fees charged by JeevanYatra for planning, coordination, customer support, or payment processing, as disclosed at checkout. “Force Majeure” means events reasonably beyond our control (including natural disasters, epidemics, government actions, strikes, severe weather, or technical outages). “Business Days” means Monday to Friday, excluding public holidays in the jurisdiction of our registered office. “Personal Data” has the meaning given in applicable data protection laws and is processed in accordance with our Privacy Policy. Headings are for convenience only and do not affect interpretation. Words in the singular include the plural and vice versa. References to “including” or “includes” mean “including without limitation”.</p>
+        </div>
+      </details>
+
+      <details id="eligibility" class="bg-white rounded-xl shadow p-6 fade-up group">
+        <summary class="cursor-pointer flex items-center justify-between">
+          <h3 class="text-2xl font-bold text-indigo-800">3) Eligibility to Use</h3>
+          <svg class="w-5 h-5 text-gray-500 transition-transform rotate" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <div class="mt-4 leading-7 text-gray-700 space-y-4">
+          <p>You must be at least eighteen (18) years of age and possess the legal capacity to enter into binding contracts to use the Services or to make any Booking. If you are acting on behalf of a minor or another traveller (for example, a family member or group), you represent and warrant that you have full authority to provide their information, accept these Terms on their behalf, and ensure their compliance. You agree to provide accurate, current, and complete information at all times, including names exactly as they appear on government identification, and to promptly update any details that change. We may, at our sole discretion, refuse or cancel access to the Platform or Services, suspend accounts, or decline Bookings if eligibility, identity, payment method, or compliance concerns arise.</p>
+          <p>Use of the Platform is subject to all applicable laws and regulations. You agree not to use the Services for any unlawful purpose, to attempt to gain unauthorized access to systems, or to disrupt or degrade the performance of the Platform. We reserve the right to carry out verification checks, including identity, contact, or payment validations, and to require supporting documents prior to confirming or continuing a Booking. Where legal consent of parents or guardians is required for minors, you are responsible for obtaining and retaining such consents and for ensuring that all travellers meet visa, health, and entry requirements relevant to the itinerary.</p>
+        </div>
+      </details>
+
+      <details id="booking" class="bg-white rounded-xl shadow p-6 fade-up group">
+        <summary class="cursor-pointer flex items-center justify-between">
+          <h3 class="text-2xl font-bold text-indigo-800">4) Booking & Payment Terms</h3>
+          <svg class="w-5 h-5 text-gray-500 transition-transform rotate" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <div class="mt-4 leading-7 text-gray-700 space-y-4">
+          <p>Bookings may be initiated online through the Platform, via our customer support channels, or through authorized partners. A Booking is considered confirmed only upon receipt of the stated deposit or full payment (as applicable) and issuance of a written confirmation from JeevanYatra. You are responsible for reviewing all confirmation details immediately and notifying us of any discrepancies within twenty‑four (24) hours. Payment methods accepted may include credit/debit cards, UPI, net banking, or bank transfer; availability can vary by itinerary and jurisdiction. You authorize us to charge your selected payment method for the amounts due, including service fees, taxes, surcharges, and any post‑booking amendments you request.</p>
+          <p>Deposits are typically non‑refundable unless stated otherwise. Where staged payments are offered, you must pay instalments by the specified due dates. Failure to make timely payments may result in automatic cancellation, forfeiture of deposits, and application of cancellation fees under our Refund & Cancellation Policy. Currency conversions, card issuer fees, and bank charges are your responsibility. Promotional codes or discounts are valid only for the stated period and conditions and cannot be combined unless explicitly allowed. We may cancel a Booking for suspected fraud, chargeback risk, or breach of these Terms and will endeavour to notify you using your registered contact details.</p>
+        </div>
+      </details>
+
+      <details id="pricing" class="bg-white rounded-xl shadow p-6 fade-up group">
+        <summary class="cursor-pointer flex items-center justify-between">
+          <h3 class="text-2xl font-bold text-indigo-800">5) Pricing & Inclusions</h3>
+          <svg class="w-5 h-5 text-gray-500 transition-transform rotate" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <div class="mt-4 leading-7 text-gray-700 space-y-4">
+          <p>Unless expressly stated, prices are quoted per person in Indian Rupees (INR) and are based on double‑occupancy or standard room configuration. The price for a specific itinerary will specify what is included (for example, accommodation category, meals, transfers, tours, entrance fees, guide services) and what is excluded (for example, personal expenses, optional activities, visa charges, travel insurance, tips, or city taxes). Prices are subject to availability at the time of booking and may vary due to supplier adjustments, currency fluctuations, tax changes, fuel surcharges, or other cost factors outside our control. We strive for accuracy but reserve the right to correct genuine errors or omissions; if a material pricing error is identified after your payment, you may choose to pay the corrected price or cancel for a full refund of amounts paid to us for that component.</p>
+          <p>Child, infant, senior, or student rates—where available—are applied strictly according to supplier rules and proof of eligibility may be required at check‑in or boarding. Room upgrade requests, specific bedding, adjoining rooms, or special meal preferences are strictly subject to availability and may incur surcharges. If a component included in your itinerary becomes unavailable after confirmation, we will offer, where feasible, an equivalent or higher‑value alternative at no additional cost; otherwise, a proportionate refund will be processed for the affected component only. Package breakdown for individual component refunds is not permitted unless mandated by law or specified in writing.</p>
+        </div>
+      </details>
+
+      <details id="cancellation" class="bg-white rounded-xl shadow p-6 fade-up group">
+        <summary class="cursor-pointer flex items-center justify-between">
+          <h3 class="text-2xl font-bold text-indigo-800">6) Cancellation & Refunds</h3>
+          <svg class="w-5 h-5 text-gray-500 transition-transform rotate" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <div class="mt-4 leading-7 text-gray-700 space-y-4">
+          <p>Your right to cancel and receive a refund is governed by our Refund & Cancellation Policy referenced at checkout and incorporated by reference into these Terms. In general, cancellations requested sufficiently in advance may receive partial or full refunds, whereas cancellations close to the travel date may be non‑refundable due to supplier rules. Certain components (including but not limited to flights issued on special fares, event tickets, permits, or promotional rates) may be strictly non‑cancellable and non‑refundable once booked. All cancellation requests must be made in writing from your registered email. The effective date of cancellation is when we receive your written request during Business Days; requests made outside Business Days will be deemed received on the next Business Day.</p>
+          <p>Refunds, where applicable, will be processed to the original payment method within the timelines indicated in our policy, subject to delays outside our control (for example, banking networks or supplier processing). Administrative fees, service charges, and any unrecoverable supplier costs will be deducted. No‑show or partially used services generally do not qualify for refunds. Where travel is disrupted by Force Majeure, we will endeavour to facilitate date changes, credits, or supplier‑offered solutions as a first resort. We recommend comprehensive travel insurance that covers cancellation for covered reasons, medical events, and travel interruptions to mitigate financial exposure.</p>
+        </div>
+      </details>
+
+      <details id="changes-by-user" class="bg-white rounded-xl shadow p-6 fade-up group">
+        <summary class="cursor-pointer flex items-center justify-between">
+          <h3 class="text-2xl font-bold text-indigo-800">7) Changes by the Customer</h3>
+          <svg class="w-5 h-5 text-gray-500 transition-transform rotate" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <div class="mt-4 leading-7 text-gray-700 space-y-4">
+          <p>Post‑booking modifications such as name corrections, travel date shifts, room category changes, or activity substitutions may be possible but are always subject to supplier approval, availability, and payment of any fare difference, reissue costs, and administrative amendment fees disclosed at the time of the request. Some suppliers treat any change as a cancellation and re‑booking, in which case the relevant cancellation policy will apply. Requests must be submitted in writing by the lead traveller or the payer on the Booking, and we may require verification to protect against unauthorized changes. We will present available options and costs for your approval before proceeding.</p>
+          <p>We strongly recommend double‑checking all details at the time of confirmation to minimize the need for changes. Certain changes—such as downgrades or removal of included components—may not produce a refund if governed by a bundled or promotional rate. If you miss a scheduled service (for example, a transfer or tour departure), suppliers may treat it as a no‑show, and re‑accommodation is not guaranteed; any additional costs for catching up with the itinerary are your responsibility. Travel insurance that includes change fees or trip interruption coverage can help reduce unexpected expenses arising from necessary alterations.</p>
+        </div>
+      </details>
+
+      <details id="documents" class="bg-white rounded-xl shadow p-6 fade-up group">
+        <summary class="cursor-pointer flex items-center justify-between">
+          <h3 class="text-2xl font-bold text-indigo-800">8) Travel Documents & Requirements</h3>
+          <svg class="w-5 h-5 text-gray-500 transition-transform rotate" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <div class="mt-4 leading-7 text-gray-700 space-y-4">
+          <p>You are solely responsible for ensuring that all travellers hold valid identification and travel documents required for the itinerary, including passports with sufficient validity, visas, permits, and vaccination or health certificates where applicable. Entry, transit, and health requirements can change without notice and may vary by nationality, transit points, and local regulations. We may provide general guidance as a courtesy, but such information is not a substitute for confirmation with official consular sources or healthcare providers. Failure to present the required documents or to meet carrier and destination rules may result in denied boarding, refusal of entry, fines, or deportation—costs for which you are entirely responsible.</p>
+          <p>Names on all documents must exactly match the identification presented at check‑in. Some destinations require proof of onward travel, sufficient funds, or specific travel insurance coverage. Minors travelling without both parents may need consent letters or additional documentation. You should review timing for visa processing well in advance and maintain copies of essential documents separately from originals. For high‑altitude, adventure, or remote itineraries, we recommend consulting your physician and arranging insurance that covers emergency medical evacuation and adventure activities. No refund will be provided for services missed due to document or health non‑compliance.</p>
+        </div>
+      </details>
+
+      <details id="responsibilities" class="bg-white rounded-xl shadow p-6 fade-up group">
+        <summary class="cursor-pointer flex items-center justify-between">
+          <h3 class="text-2xl font-bold text-indigo-800">9) Customer Responsibilities & Conduct</h3>
+          <svg class="w-5 h-5 text-gray-500 transition-transform rotate" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <div class="mt-4 leading-7 text-gray-700 space-y-4">
+          <p>Travellers are expected to behave responsibly, respect local customs and laws, and follow safety instructions issued by guides, drivers, carriers, and venue staff. You agree not to engage in abusive, disruptive, illegal, or hazardous conduct that could endanger yourself, other travellers, or service personnel. You must arrive on time for departures and meeting points; the itinerary cannot always be adjusted for late arrivals, and missed services may be treated as no‑shows. You are responsible for safeguarding your belongings and travel documents; we are not liable for loss, theft, or damage except where required by law. Any damage you cause to accommodation, vehicles, or venues must be settled directly with the provider or will be charged to you.</p>
+          <p>Health disclosures may be necessary for activities with physical demands or safety requirements. If your condition changes, you must inform us promptly so we can advise whether the itinerary remains suitable. Possession or use of prohibited items, harassment, or violation of property rules may result in removal from the tour without refund. Alcohol consumption should be moderate, and illegal drugs are strictly forbidden. For group departures, consideration for fellow travellers is essential; trip leaders may establish reasonable rules to promote a safe and enjoyable experience for all participants.</p>
+        </div>
+      </details>
+
+      <details id="company-rights" class="bg-white rounded-xl shadow p-6 fade-up group">
+        <summary class="cursor-pointer flex items-center justify-between">
+          <h3 class="text-2xl font-bold text-indigo-800">10) Company’s Rights & Itinerary Changes</h3>
+          <svg class="w-5 h-5 text-gray-500 transition-transform rotate" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <div class="mt-4 leading-7 text-gray-700 space-y-4">
+          <p>We reserve the right, at our reasonable discretion, to modify, re‑sequence, or substitute itinerary components if operationally necessary or advisable for safety, comfort, or compliance reasons, including but not limited to weather disruptions, traffic conditions, attraction closures, supplier constraints, or legal requirements. Where a material change is required prior to departure, we will notify you as soon as practicable and offer available alternatives of equal or greater value where feasible. If a comparable alternative cannot be arranged, we will provide a proportionate refund for the affected component. Minor changes that do not materially affect the overall value of the itinerary will not entitle you to a refund.</p>
+          <p>We may refuse service, cancel Bookings, or remove travellers from a tour if there is reasonable belief of fraud, abuse, safety risk, or violation of these Terms or provider rules. We also reserve the right to correct published errors, decline promotional misuse, implement capacity controls, and apply blackout dates. Trip leaders or guides may make on‑the‑spot decisions to safeguard the group’s well‑being; such decisions are binding. Nothing in this clause limits your statutory rights, but it clarifies our operational flexibility to deliver safe and reliable travel experiences.</p>
+        </div>
+      </details>
+
+      <details id="liability" class="bg-white rounded-xl shadow p-6 fade-up group">
+        <summary class="cursor-pointer flex items-center justify-between">
+          <h3 class="text-2xl font-bold text-indigo-800">11) Limitation of Liability & Force Majeure</h3>
+          <svg class="w-5 h-5 text-gray-500 transition-transform rotate" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <div class="mt-4 leading-7 text-gray-700 space-y-4">
+          <p>To the fullest extent permitted by law, JeevanYatra shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or for lost profits, revenue, goodwill, or data, arising out of or relating to your use of the Platform or Services. Our total aggregate liability for any claim shall not exceed the total amount actually paid to us for the specific component giving rise to the claim. We are not liable for acts or omissions of Third‑Party Providers, government authorities, or for events constituting Force Majeure, including but not limited to natural disasters, epidemics, strikes, civil disturbances, severe weather, or technical failures that prevent or delay performance.</p>
+          <p>Some jurisdictions do not allow the exclusion or limitation of certain damages; in such cases, the above limitations apply to the maximum extent permitted by applicable law. You acknowledge that travel inherently involves risks, and you agree to assume responsibility for choices you make, including participation in activities with elevated risk profiles. We strongly recommend appropriate insurance coverage for medical expenses, personal accident, baggage, trip cancellation, and interruptions. Nothing in these Terms seeks to exclude liability that cannot be excluded under law, such as liability for death or personal injury caused by our negligence where such exclusion would be unlawful.</p>
+        </div>
+      </details>
+
+      <details id="ip" class="bg-white rounded-xl shadow p-6 fade-up group">
+        <summary class="cursor-pointer flex items-center justify-between">
+          <h3 class="text-2xl font-bold text-indigo-800">12) Intellectual Property</h3>
+          <svg class="w-5 h-5 text-gray-500 transition-transform rotate" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <div class="mt-4 leading-7 text-gray-700 space-y-4">
+          <p>All content on the Platform—including text, graphics, logos, icons, images, videos, audio clips, software, code, and the overall look and feel—is owned by or licensed to JeevanYatra and is protected by intellectual property and unfair competition laws. You are granted a limited, non‑exclusive, non‑transferable, revocable license to access and use the Platform for personal, non‑commercial purposes in accordance with these Terms. Except as expressly permitted by law, you must not copy, reproduce, modify, distribute, display, perform, create derivative works from, republish, or transmit any content without our prior written consent or the consent of the relevant rights holder.</p>
+          <p>Trademarks, service marks, and trade names displayed on the Platform are the property of their respective owners and may not be used without authorization. You agree not to remove, obscure, or alter any copyright, trademark, or proprietary notices. Any feedback, suggestions, or ideas you voluntarily submit may be used by us without restriction or obligation, and you hereby grant us a perpetual, worldwide, royalty‑free license to use such feedback for any purpose, including product improvement and marketing, without attribution unless required by law.</p>
+        </div>
+      </details>
+
+      <details id="privacy" class="bg-white rounded-xl shadow p-6 fade-up group">
+        <summary class="cursor-pointer flex items-center justify-between">
+          <h3 class="text-2xl font-bold text-indigo-800">13) Privacy & Data Protection</h3>
+          <svg class="w-5 h-5 text-gray-500 transition-transform rotate" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <div class="mt-4 leading-7 text-gray-700 space-y-4">
+          <p>Your Personal Data is collected and processed in accordance with our Privacy Policy, which explains what data we collect, the purposes of processing, legal bases, retention periods, and your rights. By using the Platform or making a Booking, you acknowledge that we may share necessary data with Third‑Party Providers for fulfilment (for example, hotels and transport operators), payment processors, fraud prevention services, and support tools, subject to appropriate safeguards. We apply technical and organizational measures designed to protect Personal Data; however, no system is entirely immune from unauthorized access, and you acknowledge inherent Internet risks.</p>
+          <p>Where consent is required (for example, for marketing communications or certain cookies), you may withdraw consent at any time through the mechanisms provided. You may exercise data subject rights available under applicable law, such as access, rectification, deletion, portability, or restriction, by contacting us using the details below. We may verify your identity before fulfilling such requests. Cross‑border data transfers, where necessary, will follow lawful transfer mechanisms. Please review the Privacy Policy regularly, as updates will govern ongoing data practices and are incorporated by reference into these Terms.</p>
+        </div>
+      </details>
+
+      <details id="law" class="bg-white rounded-xl shadow p-6 fade-up group">
+        <summary class="cursor-pointer flex items-center justify-between">
+          <h3 class="text-2xl font-bold text-indigo-800">14) Governing Law & Jurisdiction</h3>
+          <svg class="w-5 h-5 text-gray-500 transition-transform rotate" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <div class="mt-4 leading-7 text-gray-700 space-y-4">
+          <p>These Terms, and any dispute or claim arising out of or in connection with them, their subject matter, or formation (including non‑contractual disputes or claims), shall be governed by and construed in accordance with the laws of India, without regard to conflict of law principles that would result in the application of the laws of another jurisdiction. Subject to any mandatory consumer protections, the courts having jurisdiction over our registered office shall have exclusive jurisdiction to settle any disputes. You agree to first attempt to resolve disputes amicably by contacting our customer care team; if unresolved within a reasonable time, either party may seek legal remedies.</p>
+          <p>If any provision of these Terms is found invalid, illegal, or unenforceable by a court of competent jurisdiction, such provision shall be severed or limited to the minimum extent necessary, and the remaining provisions shall continue in full force and effect. Our failure to enforce any right or provision shall not constitute a waiver of that right or provision. These Terms constitute the entire agreement between you and JeevanYatra regarding the Services and supersede all prior understandings, whether written or oral, relating to the subject matter herein.</p>
+        </div>
+      </details>
+
+      <details id="contact" class="bg-white rounded-xl shadow p-6 fade-up group">
+        <summary class="cursor-pointer flex items-center justify-between">
+          <h3 class="text-2xl font-bold text-indigo-800">15) Contact Information</h3>
+          <svg class="w-5 h-5 text-gray-500 transition-transform rotate" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <div class="mt-4 leading-7 text-gray-700 space-y-4">
+          <p>We are here to help before, during, and after your trip. For questions about these Terms, bookings, payments, amendments, refunds, or data protection, please contact our customer care team using the details below. To help us assist you quickly, include your full name, booking reference (if applicable), the best contact number, and a concise description of your query. Our standard support hours are published on our website and may vary on public holidays. We aim to acknowledge queries promptly and provide a substantive response within a reasonable timeframe, prioritizing urgent travel issues.</p>
+          <p><strong>JeevanYatra Private Limited</strong><br> Registered Office: New Delhi, India<br> Phone: +91‑98765‑43210<br> Email: contact@jeevanyatra.co.in<br> If contacting us about an active journey outside local office hours, please use the emergency number provided on your final travel documents. For legal notices, service will be effective when received at our Registered Office address as posted on our website, subject to applicable law.</p>
+        </div>
+      </details>
+
+      <p class="text-xs text-gray-500 mt-6">Last Updated: <span id="lastUpdated"></span></p>
+    </section>
+  </main>
+
+  {% include 'user_footer.html' %}
+
+  <script>
+    // Set last updated date programmatically
+    document.getElementById('lastUpdated').textContent = new Date().toLocaleDateString();
+
+    // Improve details arrow animation
+    document.querySelectorAll('details').forEach(d => {
+      d.addEventListener('toggle', () => {
+        const icon = d.querySelector('.rotate');
+        if (icon) icon.classList.toggle('!rotate-180');
+      });
+    });
+  </script>
+  <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/689b7989e0fd9f192a112f77/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+</body>
+</html>

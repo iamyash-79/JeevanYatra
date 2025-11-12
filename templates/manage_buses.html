@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JeevanYatra</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}?v=2">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script>
+    function openEditModal(bus) {
+      document.getElementById('edit_bus_id').value = bus.id;
+      document.getElementById('edit_bus_name').value = bus.bus_name;
+      document.getElementById('edit_bus_type').value = bus.bus_type;
+      document.getElementById('edit_total_seats').value = bus.total_seats;
+      document.getElementById('edit_plate_number').value = bus.plate_number;
+      document.getElementById('edit_driver_name').value = bus.driver_name;
+      document.getElementById('edit_driver_contact').value = bus.driver_contact;
+
+      const amenities = bus.amenities.split(',');
+      ['Charging', 'Water', 'Blankets'].forEach(am => {
+        document.getElementById('edit_amenity_' + am).checked = amenities.includes(am);
+      });
+
+      document.getElementById('editBusModal').showModal();
+    }
+  </script>
+</head>
+<body class="bg-gray-100 text-gray-900 min-h-screen">
+
+ {% include 'owner_topbar.html' %}
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-6 py-10">
+    <h2 class="text-3xl font-bold mb-6">🚌 Manage Buses</h2>
+
+    <!-- Add Bus Button -->
+    <button onclick="document.getElementById('addBusModal').showModal()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 mb-4">
+      + Add New Bus
+    </button>
+
+    <!-- Bus Table -->
+    <div class="overflow-x-auto bg-white rounded-lg p-4 shadow border">
+      <table class="w-full text-left text-sm">
+        <thead class="bg-gray-50 text-gray-700 uppercase border-b">
+          <tr>
+            <th class="py-2 px-3">#</th>
+            <th class="py-2 px-3">Bus Name</th>
+            <th class="py-2 px-3">Type</th>
+            <th class="py-2 px-3">Seats</th>
+            <th class="py-2 px-3">Plate</th>
+            <th class="py-2 px-3">Amenities</th>
+            <th class="py-2 px-3">Driver</th>
+            <th class="py-2 px-3">Contact</th>
+            <th class="py-2 px-3">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for bus in buses %}
+          <tr class="border-b hover:bg-gray-50">
+            <td class="py-2 px-3">{{ loop.index }}</td>
+            <td class="py-2 px-3">{{ bus['bus_name'] }}</td>
+            <td class="py-2 px-3">{{ bus['bus_type'] }}</td>
+            <td class="py-2 px-3">{{ bus['total_seats'] }}</td>
+            <td class="py-2 px-3">{{ bus['plate_number'] }}</td>
+            <td class="py-2 px-3">{{ bus['amenities'] }}</td>
+            <td class="py-2 px-3">{{ bus['driver_name'] }}</td>
+            <td class="py-2 px-3">{{ bus['driver_contact'] }}</td>
+            <td class="py-2 px-3 whitespace-nowrap">
+              <button onclick='openEditModal({{ bus | tojson | safe }})' class="text-blue-600 hover:underline mr-3">Edit</button>
+              {% if is_founder %}
+              <a href="/delete_bus/{{ bus['id'] }}" onclick="return confirm('Delete this bus?')" class="text-red-600 hover:underline">Delete</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Add Bus Modal -->
+  <dialog id="addBusModal" class="bg-white text-gray-900 p-6 rounded-xl shadow-lg max-w-xl w-full">
+    <form method="post" action="/add_bus" class="space-y-4">
+      <h2 class="text-2xl font-semibold">Add New Bus</h2>
+
+      <input type="text" name="bus_name" placeholder="Bus Name" required class="w-full p-2 border rounded">
+      <select name="bus_type" required class="w-full p-2 border rounded">
+        <option value="">Select Type</option>
+        <option value="AC">AC</option>
+        <option value="Non-AC">Non-AC</option>
+      </select>
+      <input type="number" name="total_seats" placeholder="Total Seats" required class="w-full p-2 border rounded">
+      <input type="text" name="plate_number" placeholder="Plate Number" required class="w-full p-2 border rounded">
+      
+      <div>
+        <label class="block mb-1">Amenities:</label>
+        <div class="flex gap-4">
+          <label><input type="checkbox" name="amenities" value="Charging"> Charging</label>
+          <label><input type="checkbox" name="amenities" value="Water"> Water</label>
+          <label><input type="checkbox" name="amenities" value="Blankets"> Blankets</label>
+        </div>
+      </div>
+
+      <input type="text" name="driver_name" placeholder="Driver Name" required class="w-full p-2 border rounded">
+      <input type="text" name="driver_contact" placeholder="Driver Contact" required class="w-full p-2 border rounded">
+
+      <div class="flex justify-end gap-4 pt-4">
+        <button type="button" onclick="addBusModal.close()" class="px-4 py-2 bg-gray-300 text-gray-800 rounded">Cancel</button>
+        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Edit Bus Modal -->
+  <dialog id="editBusModal" class="bg-white text-gray-900 p-6 rounded-xl shadow-lg max-w-xl w-full">
+    <form method="post" action="/update_bus" class="space-y-4">
+      <h2 class="text-2xl font-semibold">Edit Bus</h2>
+
+      <input type="hidden" name="bus_id" id="edit_bus_id">
+      <input type="text" name="bus_name" id="edit_bus_name" required class="w-full p-2 border rounded">
+      <select name="bus_type" id="edit_bus_type" required class="w-full p-2 border rounded">
+        <option value="">Select Type</option>
+        <option value="AC">AC</option>
+        <option value="Non-AC">Non-AC</option>
+      </select>
+      <input type="number" name="total_seats" id="edit_total_seats" required class="w-full p-2 border rounded">
+      <input type="text" name="plate_number" id="edit_plate_number" required class="w-full p-2 border rounded">
+
+      <div>
+        <label class="block mb-1">Amenities:</label>
+        <div class="flex gap-4">
+          <label><input type="checkbox" id="edit_amenity_Charging" name="amenities" value="Charging"> Charging</label>
+          <label><input type="checkbox" id="edit_amenity_Water" name="amenities" value="Water"> Water</label>
+          <label><input type="checkbox" id="edit_amenity_Blankets" name="amenities" value="Blankets"> Blankets</label>
+        </div>
+      </div>
+
+      <input type="text" name="driver_name" id="edit_driver_name" required class="w-full p-2 border rounded">
+      <input type="text" name="driver_contact" id="edit_driver_contact" required class="w-full p-2 border rounded">
+
+      <div class="flex justify-end gap-4 pt-4">
+        <button type="button" onclick="editBusModal.close()" class="px-4 py-2 bg-gray-300 text-gray-800 rounded">Cancel</button>
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Update</button>
+      </div>
+    </form>
+  </dialog>
+{% include 'owner_footer.html' %}
+</body>
+</html>
