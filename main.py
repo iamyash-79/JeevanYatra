@@ -13,7 +13,7 @@ app = Flask(__name__)
 app.secret_key = 'zeedkkt4r1'
 app.permanent_session_lifetime = timedelta(days=1)
 
-client = razorpay.Client(auth=("rzp_live_R81ZX2l4Pf301W", "ekgW6W3rvJBT49pbbBxIrj6l"))
+client = razorpay.Client(auth=("rzp_live_key", "password"))
 
 MAIL_SERVER = 'smtp.zoho.in'
 MAIL_PORT = 465
@@ -21,10 +21,10 @@ MAIL_USE_SSL = True
 
 APP_NAME = 'JeevanYatra'
 EMAIL_ADDRESS = "contact@jeevanyatra.co.in"
-EMAIL_PASSWORD = "JkWF0C7i6gha"
+EMAIL_PASSWORD = "password"
 
 PARTNER_EMAIL = 'partner@jeevanyatra.co.in'
-PARTNER_PASSWORD = 'bNuPEv3FYhFB'
+PARTNER_PASSWORD = 'password'
 
 def generate_random_otp(length=6):
     import random
@@ -67,7 +67,7 @@ def get_mysql_connection():
     return mysql.connector.connect(
         host="localhost",
         user="jeevanya_database",
-        password="Jeevanyatra@79",
+        password="password",
         database="jeevanya_database",
         auth_plugin='mysql_native_password'
     )
